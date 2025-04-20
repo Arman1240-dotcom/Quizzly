@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quizzly - GK Quiz Website</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <style>
+    .hero {
+      background: #007bff;
+      color: white;
+      padding: 80px 0;
+      text-align: center;
+    }
+    .category-card {
+      transition: transform 0.3s;
+    }
+    .category-card:hover {
+      transform: scale(1.05);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="#">Quizzly</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Quizzes</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Leaderboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="container">
+      <h1 class="display-4">Welcome to Quizzly!</h1>
+      <p class="lead">Test your knowledge across a wide range of topics and become a trivia master.</p>
+      <button id="startQuizBtn" class="btn btn-light btn-lg mt-3">Start Quiz</button>
+    </div>
+  </section>
+
+  <!-- Categories Section -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="text-center mb-4">Quiz Categories</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="card category-card" data-category="history">
+            <div class="card-body text-center">
+              <h5 class="card-title">History</h5>
+              <p class="card-text">Explore important historical events and personalities.</p>
+              <button class="btn btn-primary start-category-quiz">Take Quiz</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card category-card" data-category="science">
+            <div class="card-body text-center">
+              <h5 class="card-title">Science</h5>
+              <p class="card-text">Challenge yourself with fascinating science facts.</p>
+              <button class="btn btn-primary start-category-quiz">Take Quiz</button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card category-card" data-category="geography">
+            <div class="card-body text-center">
+              <h5 class="card-title">Geography</h5>
+              <p class="card-text">Test your knowledge of countries, cities, and landscapes.</p>
+              <button class="btn btn-primary start-category-quiz">Take Quiz</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-dark text-white text-center py-3">
+    <div class="container">
+      <p class="mb-0">&copy; 2025 Quizzly. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Custom JavaScript -->
+  <script>
+    // Handle Start Quiz Button click
+    document.getElementById("startQuizBtn").addEventListener("click", function() {
+      alert("Starting a random quiz...");
+      // Here you can redirect to a random quiz page or initialize a quiz with questions.
+      window.location.href = "quiz.html";  // Example: Navigate to a quiz page.
+    });
+
+    // Handle category quiz start (for each category button)
+    const categoryButtons = document.querySelectorAll(".start-category-quiz");
+
+    categoryButtons.forEach(button => {
+      button.addEventListener("click", function() {
+        const category = this.closest(".category-card").getAttribute("data-category");
+        alert(`Starting ${category} quiz...`);
+        // Here you can add more complex behavior like loading quiz questions based on category.
+        window.location.href = `quiz.html?category=${category}`; // Example redirect to a category-specific quiz page.
+      });
+    });
+  </script>
+
+</body>
+</html>
