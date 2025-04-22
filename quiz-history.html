@@ -8,11 +8,25 @@
   <style>
     .question-card { margin-bottom: 30px; display: none; }
     .question-card.active { display: block; }
+    .quiz-header {
+      margin-bottom: 40px;
+    }
+    .quiz-result h3 {
+      font-weight: bold;
+    }
+    .quiz-container {
+      display: flex;
+      justify-content: center;
+    }
   </style>
 </head>
 <body>
   <div class="container py-5">
-    <h1 class="text-center mb-4">History Quiz</h1>
+    <!-- Header Section -->
+    <div class="quiz-header text-center">
+      <h1 class="display-4">History Quiz</h1>
+      <p class="lead">Test your knowledge of Indian history</p>
+    </div>
 
     <!-- Quiz Settings -->
     <div id="quiz-setup" class="text-center mb-5">
@@ -23,19 +37,19 @@
         <option value="20">20 Questions</option>
         <option value="30">30 Questions</option>
       </select>
-      <button class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
+      <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start Quiz</button>
     </div>
 
     <!-- Quiz Questions -->
     <div id="quiz-questions" style="display:none;">
       <form id="quiz-form">
         <div id="question-container"></div>
-        <button type="submit" class="btn btn-success mt-4">Submit Answers</button>
+        <button type="submit" class="btn btn-success btn-lg mt-4">Submit Answers</button>
       </form>
     </div>
 
-    <!-- Result -->
-    <div id="quiz-result" class="text-center mt-5" style="display: none;"></div>
+    <!-- Quiz Result -->
+    <div id="quiz-result" class="quiz-result text-center mt-5" style="display: none;"></div>
   </div>
 
   <script>
@@ -206,7 +220,7 @@
 
       questions.forEach((q, index) => {
         const questionHTML = `
-          <div class="question-card active">
+          <div class="question-card active card p-3">
             <h5>Q${index + 1}. ${q.question}</h5>
             ${q.options.map((opt, i) => `
               <div class="form-check">
@@ -240,5 +254,7 @@
       document.getElementById("quiz-result").innerHTML = <h3>You scored ${score} out of ${total}</h3>;
     });
   </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
