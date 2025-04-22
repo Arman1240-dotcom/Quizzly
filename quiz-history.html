@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>History Quiz - Quizzly</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <style>
+    .question-card { margin-bottom: 30px; display: none; }
+    .question-card.active { display: block; }
+  </style>
+</head>
+<body>
+  <div class="container py-5">
+    <h1 class="text-center mb-4">History Quiz</h1>
+
+    <!-- Quiz Settings -->
+    <div id="quiz-setup" class="text-center mb-5">
+      <h4>Select number of questions:</h4>
+      <select id="question-count" class="form-select w-25 mx-auto mb-3">
+        <option value="5">5 Questions</option>
+        <option value="10">10 Questions</option>
+      </select>
+      <button class="btn btn-primary" onclick="startQuiz()">Start Quiz</button>
+    </div>
+
+    <!-- Quiz Questions -->
+    <div id="quiz-questions" style="display:none;">
+      <form id="quiz-form">
+        <div id="question-container"></div>
+        <button type="submit" class="btn btn-success mt-4">Submit Answers</button>
+      </form>
+    </div>
+
+    <!-- Result -->
+    <div id="quiz-result" class="text-center mt-5" style="display: none;"></div>
+  </div>
+
+  <script>
+    const allQuestions = [
+      {
+        question: "Which of the following organization was not established by BR Ambedkar?",
+        options: ["Depressed Classes Institute", "Samaj Samata Sangh", "Zero Club", "People’s Education Society"],
+        answer: 2
+      },
+      {
+        question: "Which among the following books was authored by Mahatma Gandhi?",
+        options: ["Discovery of India", "Hind Swaraj", "My Truth", "Hindu View of Life"],
+        answer: 1
+      },
+      {
+        question: "The Swaraj Party’s 'Responsivists' faction worked for/by:",
+        options: [
+          "Maintaining a separate identity of the Party within the Congress",
+          "Creating obstacles in legislative process by acting as dissenters",
+          "Cooperating with the No-Changers of the Congress in the favour of constructive programme of Gandhi",
+          "Safeguarding the Hindu interests by cooperating with the British Government"
+        ],
+        answer: 3
+      },
+      {
+        question: "‘Do or Die’ is the famous slogan of which Congress leader?",
+        options: ["Netaji Subhash Chandra Bose", "Mahatma Gandhi", "Lal Bahadur Shastri", "Sardar Vallabh Bhai Patel"],
+        answer: 1
+      },
+      {
+        question: "The pioneer of Communism in India was:",
+        options: ["MN Roy", "MR Jayakar", "SA Dange", "Nalin Gupta"],
+        answer: 0
+      },
+      {
+        question: "Arrange the following events in order: 1) August Offer 2) Poona Pact 3) Third Round Table Conference",
+        options: ["1-2-3", "2-1-3", "2-3-1", "2-1-3"],
+        answer: 2
+      },
+      {
+        question: "In 1953, under whose chairmanship was the first OBC Commission formed?",
+        options: ["KK Shetty", "Joachim Alva", "Hardekar Manjappa", "Kaka Kalelkar"],
+        answer: 3
+      },
+      {
+        question: "Under whose President-ship, Congress split into two groups?",
+        options: ["Rash Behari Gosh", "Bishan Narayan Dhar", "Madan Mohan Malaviya", "Syed Mohammed"],
+        answer: 0
+      },
+      {
+        question: "The resolution of Quit India Movement was passed in which city?",
+        options: ["Lucknow", "Calcutta", "Madras", "Bombay"],
+        answer: 3
+      },
+      {
+        question: "Simon Commission was sent to India in 1928. Who was the British PM then?",
+        options: ["John Allsebrook Simon", "Stanley Baldwin", "Clement Richard Attlee", "Winston Churchill"],
+        answer: 1
+      }
+    ];
+
+    function startQuiz() {
+      const selectedCount = parseInt(document.getElementById("question-count").value);
+      const quizContainer = document.getElementById("question-container");
+      const questions = allQuestions.slice(0, selectedCount);
+      quizContainer.innerHTML = "";
+
+      questions.forEach((q, index) => {
+        const questionHTML = `
+          <div class="question-card active">
+            <h5>Q${index + 1}. ${q.question}</h5>
+            ${q.options.map((opt, i) => `
+              <div class="form-check">
+                <input class="form-check-input" type="radio" name="q${index}" value="${i}" id="q${index}a${i}" required>
+                <label class="form-check-label" for="q${index}a${i}">${opt}</label>
+              </div>`).join('')}
+          </div>
+        `;
+        quizContainer.insertAdjacentHTML("beforeend", questionHTML);
+      });
+
+      document.getElementById("quiz-setup").style.display = "none";
+      document.getElementById("quiz-questions").style.display = "block";
+    }
+
+    document.getElementById("quiz-form").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const form = new FormData(e.target);
+      let score = 0;
+      let total = 0;
+      form.forEach((value, key) => {
+        const index = parseInt(key.replace('q', ''));
+        if (parseInt(value) === allQuestions[index].answer) {
+          score++;
+        }
+        total++;
+      });
+
+      document.getElementById("quiz-questions").style.display = "none";
+      document.getElementById("quiz-result").style.display = "block";
+      document.getElementById("quiz-result").innerHTML = `<h3>You scored ${score} out of ${total}</h3>`;
+    });
+  </script>
+</body>
+</html>
