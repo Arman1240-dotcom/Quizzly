@@ -54,7 +54,6 @@
 
   <script>
     const allQuestions = [
-      // Geography Questions
       {
         question: "What is the capital of France?",
         options: ["Berlin", "Madrid", "Paris", "Rome"],
@@ -105,8 +104,6 @@
         options: ["Sydney", "Melbourne", "Canberra", "Perth"],
         answer: 2
       },
-
-      // Additional Geography Questions
       {
         question: "Which continent has the most countries?",
         options: ["Africa", "Asia", "Europe", "North America"],
@@ -163,7 +160,7 @@
       const selectedCount = parseInt(document.getElementById("question-count").value);
       const quizContainer = document.getElementById("question-container");
       const questions = allQuestions.slice(0, selectedCount);
-      quizContainer.innerHTML = "";
+      quizContainer.innerHTML = "";  // Clear previous questions
 
       questions.forEach((q, index) => {
         const questionHTML = `
@@ -179,6 +176,9 @@
         quizContainer.insertAdjacentHTML("beforeend", questionHTML);
       });
 
+      console.log("Quiz started with " + selectedCount + " questions.");
+
+      // Hide the setup and show the quiz questions
       document.getElementById("quiz-setup").style.display = "none";
       document.getElementById("quiz-questions").style.display = "block";
     }
@@ -188,6 +188,7 @@
       const form = new FormData(e.target);
       let score = 0;
       let total = 0;
+
       form.forEach((value, key) => {
         const index = parseInt(key.replace('q', ''));
         if (parseInt(value) === allQuestions[index].answer) {
