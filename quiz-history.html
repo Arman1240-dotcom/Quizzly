@@ -7,41 +7,51 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(135deg, #f0f9ff, #cbebff);
+      background: linear-gradient(135deg, #f0f9ff, #a0e0ff);
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
 
     .quiz-box {
-      animation: fadeIn 1s ease-in-out;
       background: white;
-      border-radius: 15px;
+      border-radius: 20px;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      padding: 30px;
-      margin-top: 50px;
+      padding: 40px;
+      animation: fadeIn 0.6s ease-in-out;
+      width: 100%;
+      max-width: 600px;
     }
 
     .option-btn {
-      transition: all 0.3s ease;
+      transition: 0.3s;
     }
 
     .option-btn:hover {
-      transform: scale(1.05);
+      transform: scale(1.03);
+    }
+
+    .correct {
+      background-color: #198754 !important;
+      color: white;
+    }
+
+    .wrong {
+      background-color: #dc3545 !important;
+      color: white;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
   <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="quiz-box w-100" id="quiz-box">
-      <h2 class="text-center mb-4" id="question"></h2>
-      <div id="options" class="d-grid gap-3"></div>
-      <div class="text-center mt-4">
-        <button class="btn btn-primary" onclick="nextQuestion()">Next</button>
-      </div>
+    <div class="quiz-box text-center" id="quiz-box">
+      <h4 class="mb-3" id="score-tracker">Score: 0</h4>
+      <h3 id="question"></h3>
+      <div class="d-grid gap-3 mt-4" id="options"></div>
+      <button class="btn btn-primary mt-4" onclick="nextQuestion()" id="next-btn" disabled>Next</button>
     </div>
   </div>
 
@@ -59,40 +69,56 @@
       { question: "Which scientist developed the theory of relativity?", options: ["Newton", "Einstein", "Galileo", "Curie"], answer: "Einstein" }
     ];
 
-    let currentQuestion = 0;
+    let current = 0;
+    let score = 0;
 
     function showQuestion() {
-      const questionElement = document.getElementById("question");
-      const optionsElement = document.getElementById("options");
-      const q = quiz[currentQuestion];
+      document.getElementById("question").textContent = quiz[current].question;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      document.getElementById("next-btn").disabled = true;
 
-      questionElement.textContent = q.question;
-      optionsElement.innerHTML = "";
-
-      q.options.forEach(option => {
+      quiz[current].options.forEach(opt => {
         const btn = document.createElement("button");
-        btn.className = "btn btn-outline-info option-btn";
-        btn.textContent = option;
-        btn.onclick = () => checkAnswer(option);
-        optionsElement.appendChild(btn);
+        btn.className = "btn btn-outline-secondary option-btn";
+        btn.textContent = opt;
+        btn.onclick = () => checkAnswer(btn, opt);
+        optionsDiv.appendChild(btn);
       });
+
+      document.getElementById("quiz-box").style.animation = "fadeIn 0.6s ease-in-out";
     }
 
-    function checkAnswer(selected) {
-      const correct = quiz[currentQuestion].answer;
+    function checkAnswer(btn, selected) {
+      const correct = quiz[current].answer;
+      const allButtons = document.querySelectorAll(".option-btn");
+
+      allButtons.forEach(button => button.disabled = true);
+
       if (selected === correct) {
-        alert("Correct!");
+        btn.classList.add("correct");
+        score++;
       } else {
-        alert(`Wrong! The correct answer is ${correct}`);
+        btn.classList.add("wrong");
+        allButtons.forEach(b => {
+          if (b.textContent === correct) b.classList.add("correct");
+        });
       }
+
+      document.getElementById("score-tracker").textContent = `Score: ${score}`;
+      document.getElementById("next-btn").disabled = false;
     }
 
     function nextQuestion() {
-      currentQuestion++;
-      if (currentQuestion < quiz.length) {
+      current++;
+      if (current < quiz.length) {
         showQuestion();
       } else {
-        document.getElementById("quiz-box").innerHTML = `<h2 class="text-center">Quiz Completed!</h2>`;
+        document.getElementById("quiz-box").innerHTML = `
+          <h2 class="mb-4">🎉 Quiz Completed!</h2>
+          <h4>Your Final Score: ${score} / ${quiz.length}</h4>
+          <button class="btn btn-success mt-3" onclick="location.reload()">Try Again</button>
+        `;
       }
     }
 
