@@ -6,23 +6,13 @@
   <title>Science Quiz - Quizzly</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
   <style>
-    .question-card { margin-bottom: 30px; display: none; }
-    .question-card.active { display: block; }
-    .quiz-header {
-      margin-bottom: 40px;
-    }
-    .quiz-result h3 {
-      font-weight: bold;
-    }
-    .quiz-container {
-      display: flex;
-      justify-content: center;
-    }
+    .question-card { margin-bottom: 30px; }
+    .quiz-header { margin-bottom: 40px; }
+    .quiz-result h3 { font-weight: bold; }
   </style>
 </head>
 <body>
 
-  <!-- Header -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container">
     <a class="navbar-brand" href="#">Quizzly</a>
@@ -40,101 +30,114 @@
   </div>
 </nav>
 
-  <div class="container py-5">
-    <!-- Header Section -->
-    <div class="quiz-header text-center">
-      <h1 class="display-4">Science Quiz</h1>
-      <p class="lead">Test your knowledge of Science and General Knowledge</p>
-    </div>
-
-    <!-- Quiz Settings -->
-    <div id="quiz-setup" class="text-center mb-5">
-      <h4>Select number of questions:</h4>
-      <select id="question-count" class="form-select w-25 mx-auto mb-3">
-        <option value="5">5 Questions</option>
-        <option value="10" selected>10 Questions</option>
-        <option value="20">20 Questions</option>
-        <option value="30">30 Questions</option>
-      </select>
-      <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start Quiz</button>
-    </div>
-
-    <!-- Quiz Questions -->
-    <div id="quiz-questions" style="display:none;">
-      <form id="quiz-form">
-        <div id="question-container"></div>
-        <button type="submit" class="btn btn-success btn-lg mt-4">Submit Answers</button>
-      </form>
-    </div>
-
-    <!-- Quiz Result -->
-    <div id="quiz-result" class="quiz-result text-center mt-5" style="display: none;"></div>
+<div class="container py-5">
+  <div class="quiz-header text-center">
+    <h1 class="display-4">Science Quiz</h1>
+    <p class="lead">Test your knowledge of Science and General Knowledge</p>
   </div>
 
+  <div id="quiz-setup" class="text-center mb-5">
+    <h4>Select number of questions:</h4>
+    <select id="question-count" class="form-select w-25 mx-auto mb-3">
+      <option value="5">5 Questions</option>
+      <option value="10" selected>10 Questions</option>
+      <option value="20">20 Questions</option>
+    </select>
+    <button class="btn btn-primary btn-lg" onclick="startQuiz()">Start Quiz</button>
+  </div>
 
-  <footer class="bg-dark text-white text-center py-3">
-    <div class="container">
-      <p class="mb-0">&copy; 2025 Quizzly. All rights reserved.</p>
-    </div>
-  </footer>
+  <div id="quiz-questions" style="display:none;">
+    <form id="quiz-form">
+      <div id="question-container"></div>
+      <button type="submit" class="btn btn-success btn-lg mt-4">Submit Answers</button>
+    </form>
+  </div>
 
-  <script>
-    const allQuestions = [
-      { question: "What is the chemical symbol for water?", options: ["H2O", "O2", "H2O2", "CO2"], answer: 0 },
-      { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: 1 },
-      { question: "Who developed the theory of relativity?", options: ["Isaac Newton", "Albert Einstein", "Galileo Galilei", "Nikola Tesla"], answer: 1 },
-      { question: "What is the hardest natural substance on Earth?", options: ["Gold", "Iron", "Diamond", "Platinum"], answer: 2 },
-      { question: "Which gas do plants absorb from the atmosphere for photosynthesis?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"], answer: 1 },
-      { question: "What is the largest organ in the human body?", options: ["Heart", "Brain", "Liver", "Skin"], answer: 3 },
-      { question: "What is the smallest unit of life?", options: ["Molecule", "Atom", "Cell", "Organ"], answer: 2 },
-      { question: "What is the most common element in the Earth's crust?", options: ["Oxygen", "Silicon", "Iron", "Aluminum"], answer: 1 },
-      { question: "Which scientist is credited with the discovery of the law of gravity?", options: ["Albert Einstein", "Isaac Newton", "Marie Curie", "Galileo Galilei"], answer: 1 },
-      { question: "What is the process by which a caterpillar becomes a butterfly?", options: ["Metamorphosis", "Transmutation", "Mutation", "Evolution"], answer: 0 }
-    ];
+  <div id="quiz-result" class="quiz-result text-center mt-5" style="display: none;"></div>
+</div>
 
-    function startQuiz() {
-      const selectedCount = parseInt(document.getElementById("question-count").value);
-      const quizContainer = document.getElementById("question-container");
-      const questions = allQuestions.slice(0, selectedCount);
-      quizContainer.innerHTML = "";
+<footer class="bg-dark text-white text-center py-3">
+  <div class="container">
+    <p class="mb-0">&copy; 2025 Quizzly. All rights reserved.</p>
+  </div>
+</footer>
 
-      questions.forEach((q, index) => {
-        const questionHTML = `
-          <div class="question-card active card p-3">
-            <h5>Q${index + 1}. ${q.question}</h5>
-            ${q.options.map((opt, i) => `
-              <div class="form-check">
-                <input class="form-check-input" type="radio" name="q${index}" value="${i}" id="q${index}a${i}" required>
-                <label class="form-check-label" for="q${index}a${i}">${opt}</label>
-              </div>`).join('')}
-          </div>
-        `;
-        quizContainer.insertAdjacentHTML("beforeend", questionHTML);
-      });
+<script>
+  const allQuestions = [
+    { question: "What is the chemical symbol for Gold?", options: ["Au", "Ag", "Gd", "Go"], answer: "Au" },
+    { question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
+    { question: "What part of the cell contains the genetic material?", options: ["Cytoplasm", "Nucleus", "Mitochondria", "Ribosome"], answer: "Nucleus" },
+    { question: "Which gas is most abundant in Earth’s atmosphere?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"], answer: "Nitrogen" },
+    { question: "What is H2O commonly known as?", options: ["Hydrogen Peroxide", "Hydroxide", "Water", "Oxygen"], answer: "Water" },
+    { question: "Which of the following is not a mammal?", options: ["Whale", "Bat", "Penguin", "Elephant"], answer: "Penguin" },
+    { question: "What is the unit of electric current?", options: ["Volt", "Ampere", "Watt", "Ohm"], answer: "Ampere" },
+    { question: "What type of energy does a moving object have?", options: ["Potential Energy", "Thermal Energy", "Kinetic Energy", "Chemical Energy"], answer: "Kinetic Energy" },
+    { question: "What causes seasons on Earth?", options: ["Distance from the Sun", "Earth’s tilt on its axis", "Moon's orbit", "Sun's rotation"], answer: "Earth’s tilt on its axis" },
+    { question: "Which vitamin is produced when human skin is exposed to sunlight?", options: ["Vitamin A", "Vitamin B12", "Vitamin C", "Vitamin D"], answer: "Vitamin D" },
+    { question: "What is the boiling point of water at sea level?", options: ["90°C", "100°C", "120°C", "80°C"], answer: "100°C" },
+    { question: "Which organ pumps blood throughout the body?", options: ["Brain", "Kidney", "Heart", "Liver"], answer: "Heart" },
+    { question: "What gas do plants absorb from the atmosphere?", options: ["Oxygen", "Nitrogen", "Hydrogen", "Carbon Dioxide"], answer: "Carbon Dioxide" },
+    { question: "Which element is needed for hemoglobin?", options: ["Calcium", "Iron", "Zinc", "Magnesium"], answer: "Iron" },
+    { question: "What keeps planets in orbit around the Sun?", options: ["Magnetism", "Gravity", "Electricity", "Friction"], answer: "Gravity" },
+    { question: "What bond is formed by sharing electrons?", options: ["Ionic", "Metallic", "Covalent", "Hydrogen"], answer: "Covalent" },
+    { question: "Which part of a plant conducts photosynthesis?", options: ["Root", "Stem", "Flower", "Leaf"], answer: "Leaf" },
+    { question: "What is the main gas in the Sun?", options: ["Oxygen", "Hydrogen", "Nitrogen", "Helium"], answer: "Hydrogen" },
+    { question: "How many bones are in an adult body?", options: ["206", "201", "198", "210"], answer: "206" },
+    { question: "Newton’s Third Law of Motion?", options: ["F = ma", "An object in motion stays in motion", "For every action, there is an equal and opposite reaction", "Force is mass times acceleration"], answer: "For every action, there is an equal and opposite reaction" }
+    
+  ];
 
-      document.getElementById("quiz-setup").style.display = "none";
-      document.getElementById("quiz-questions").style.display = "block";
+  function shuffle(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [array[i], array[j]] = [array[j], array[i]];
     }
+  }
 
-    document.getElementById("quiz-form").addEventListener("submit", function(e) {
+  function startQuiz() {
+    const selectedCount = parseInt(document.getElementById("question-count").value);
+    const quizContainer = document.getElementById("question-container");
+    const questions = [...allQuestions];
+    shuffle(questions);
+    const selectedQuestions = questions.slice(0, selectedCount);
+    quizContainer.innerHTML = "";
+
+    selectedQuestions.forEach((q, index) => {
+      const questionHTML = `
+        <div class="question-card card p-3">
+          <h5>Q${index + 1}. ${q.question}</h5>
+          ${q.options.map((opt, i) => `
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="q${index}" value="${opt}" id="q${index}a${i}" required>
+              <label class="form-check-label" for="q${index}a${i}">${opt}</label>
+            </div>`).join('')}
+        </div>
+      `;
+      quizContainer.insertAdjacentHTML("beforeend", questionHTML);
+    });
+
+    document.getElementById("quiz-setup").style.display = "none";
+    document.getElementById("quiz-questions").style.display = "block";
+
+    document.getElementById("quiz-form").onsubmit = function(e) {
       e.preventDefault();
-      const form = new FormData(e.target);
       let score = 0;
-      let total = 0;
-      form.forEach((value, key) => {
+      const formData = new FormData(e.target);
+      formData.forEach((value, key) => {
         const index = parseInt(key.replace('q', ''));
-        if (parseInt(value) === allQuestions[index].answer) {
+        if (value === selectedQuestions[index].answer) {
           score++;
         }
-        total++;
       });
 
       document.getElementById("quiz-questions").style.display = "none";
-      document.getElementById("quiz-result").style.display = "block";
-      document.getElementById("quiz-result").innerHTML = `<h3>You scored ${score} out of ${total}</h3>`;
-    });
-  </script>
+      const result = document.getElementById("quiz-result");
+      result.style.display = "block";
+      result.innerHTML = `<h3>You scored ${score} out of ${selectedCount}</h3>`;
+    };
+  }
+</script>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
