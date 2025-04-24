@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz by Levels</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to right, #e0eafc, #cfdef3);
+    }
+    #timer {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #dc3545;
+    }
+    .level-btn {
+      font-size: 1.1rem;
+      padding: 10px 20px;
+      border-radius: 50px;
+    }
+    .card {
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      border-radius: 1rem;
+    }
+    #quiz-container {
+      max-width: 600px;
+      margin: auto;
+    }
+    #result {
+      padding: 1rem;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <div class="container py-5 text-center">
+    <h1 class="display-5 fw-bold mb-4">🎯 Quiz Challenge</h1>
+    <p class="lead mb-4">Select a difficulty level to begin your quiz journey!</p>
+    <div class="d-flex justify-content-center mb-5">
+      <button class="btn btn-success mx-2 level-btn" onclick="startQuiz('easy')">Easy</button>
+      <button class="btn btn-warning mx-2 level-btn" onclick="startQuiz('medium')">Medium</button>
+      <button class="btn btn-danger mx-2 level-btn" onclick="startQuiz('hard')">Hard</button>
+    </div>
+
+    <div id="quiz-container" class="card d-none">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 id="question" class="card-title mb-0 text-start"></h5>
+          <div id="timer"></div>
+        </div>
+        <div id="options" class="mb-3 text-start"></div>
+        <button class="btn btn-primary w-100" onclick="nextQuestion()">Next Question</button>
+      </div>
+    </div>
+
+    <div id="result" class="mt-4 fw-bold fs-4 d-none"></div>
+  </div>
+
+  <script defer>
+    const questions = {
+      easy: [
+        { q: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: 1 },
+        { q: "Which color is the sky?", options: ["Blue", "Green", "Red", "Yellow"], answer: 0 },
+        { q: "How many days in a week?", options: ["5", "6", "7", "8"], answer: 2 },
+        { q: "What is the color of banana?", options: ["Blue", "Yellow", "Red", "Green"], answer: 1 },
+        { q: "How many wheels does a car have?", options: ["2", "3", "4", "6"], answer: 2 },
+        { q: "What is the opposite of hot?", options: ["Warm", "Cold", "Cool", "Hotter"], answer: 1 },
+        { q: "What do cows drink?", options: ["Milk", "Water", "Juice", "Soda"], answer: 1 },
+        { q: "Which shape has 3 sides?", options: ["Square", "Circle", "Triangle", "Rectangle"], answer: 2 },
+        { q: "What comes after Tuesday?", options: ["Monday", "Wednesday", "Thursday", "Friday"], answer: 1 },
+        { q: "Which animal barks?", options: ["Cat", "Dog", "Horse", "Cow"], answer: 1 }
+      ],
+      medium: [
+        { q: "What is the capital of France?", options: ["Rome", "Madrid", "Paris", "Berlin"], answer: 2 },
+        { q: "What does CPU stand for?", options: ["Central Processing Unit", "Control Processing Unit", "Computer Power Unit", "Central Performance Unit"], answer: 0 },
+        { q: "What is the boiling point of water?", options: ["90°C", "100°C", "110°C", "120°C"], answer: 1 },
+        { q: "Which gas do plants use for photosynthesis?", options: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"], answer: 2 },
+        { q: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: 1 },
+        { q: "How many continents are there?", options: ["5", "6", "7", "8"], answer: 2 },
+        { q: "Who wrote 'Romeo and Juliet'?", options: ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"], answer: 1 },
+        { q: "Which organ pumps blood in the body?", options: ["Brain", "Liver", "Heart", "Lung"], answer: 2 },
+        { q: "What is H2O?", options: ["Oxygen", "Hydrogen", "Water", "Salt"], answer: 2 },
+        { q: "What is the square root of 16?", options: ["2", "3", "4", "5"], answer: 2 }
+      ],
+      hard: [
+        { q: "What is the derivative of sin(x)?", options: ["cos(x)", "-cos(x)", "-sin(x)", "tan(x)"], answer: 0 },
+        { q: "Which planet has the most moons?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: 3 },
+        { q: "What is Schrödinger's cat a thought experiment of?", options: ["Quantum mechanics", "Relativity", "Evolution", "Thermodynamics"], answer: 0 },
+        { q: "What is the integral of 1/x?", options: ["ln|x|", "x", "1/x^2", "x^2/2"], answer: 0 },
+        { q: "Who developed the theory of relativity?", options: ["Newton", "Einstein", "Tesla", "Galileo"], answer: 1 },
+        { q: "What is the smallest prime number?", options: ["0", "1", "2", "3"], answer: 2 },
+        { q: "Which element has the atomic number 6?", options: ["Carbon", "Oxygen", "Nitrogen", "Helium"], answer: 0 },
+        { q: "What does DNA stand for?", options: ["Deoxyribonucleic Acid", "Ribonucleic Acid", "Nitric Acid", "Dinucleic Acid"], answer: 0 },
+        { q: "What is the capital of Iceland?", options: ["Oslo", "Reykjavik", "Helsinki", "Stockholm"], answer: 1 },
+        { q: "What is the formula for the area of a circle?", options: ["πr", "2πr", "πr²", "r²"], answer: 2 }
+      ]
+    };
+
+    const timeLimits = { easy: 15, medium: 13, hard: 12 };
+    let currentLevel = '';
+    let currentQuestion = 0;
+    let score = 0;
+    let timerInterval;
+    let timeLeft;
+
+    function startQuiz(level) {
+      currentLevel = level;
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("quiz-container").classList.remove("d-none");
+      document.getElementById("result").classList.add("d-none");
+      document.getElementById("result").innerHTML = "";
+      showQuestion();
+    }
+
+    function showQuestion() {
+      clearInterval(timerInterval);
+      const q = questions[currentLevel][currentQuestion];
+      if (!q) {
+        alert("No questions available for this level.");
+        return;
+      }
+      document.getElementById("question").innerText = q.q;
+      const optionsHtml = q.options.map((opt, index) =>
+        `<div class="form-check">
+          <input class="form-check-input" type="radio" name="option" value="${index}" id="opt${index}">
+          <label class="form-check-label" for="opt${index}">${opt}</label>
+        </div>`
+      ).join('');
+      document.getElementById("options").innerHTML = optionsHtml;
+      startTimer();
+    }
+
+    function startTimer() {
+      timeLeft = timeLimits[currentLevel];
+      document.getElementById("timer").innerText = `⏱ ${timeLeft}s`;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = `⏱ ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          nextQuestion(true);
+        }
+      }, 1000);
+    }
+
+    function nextQuestion(auto = false) {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected && !auto) {
+        alert("Please select an option!");
+        return;
+      }
+
+      if (selected && parseInt(selected.value) === questions[currentLevel][currentQuestion].answer) {
+        score++;
+      }
+
+      currentQuestion++;
+      if (currentQuestion < questions[currentLevel].length) {
+        showQuestion();
+      } else {
+        clearInterval(timerInterval);
+        document.getElementById("quiz-container").classList.add("d-none");
+        const resultBox = document.getElementById("result");
+        resultBox.classList.remove("d-none");
+        resultBox.innerText = `🎉 Your Score: ${score} / ${questions[currentLevel].length}`;
+      }
+    }
+  </script>
+</body>
+</html>
