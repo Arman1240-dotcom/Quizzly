@@ -34,6 +34,11 @@
       border-radius: 1rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
+    #question-info {
+      font-size: 1rem;
+      font-weight: normal;
+      color: #007bff;
+    }
   </style>
 </head>
 <body>
@@ -52,12 +57,14 @@
           <h5 id="question" class="card-title mb-0 text-start"></h5>
           <div id="timer"></div>
         </div>
+        <div id="question-info" class="mb-3"></div>
         <div id="options" class="mb-3 text-start"></div>
         <button class="btn btn-primary w-100" onclick="nextQuestion()">Next Question</button>
       </div>
     </div>
 
     <div id="result" class="mt-4 fw-bold fs-4 d-none"></div>
+    <button id="restart-btn" class="btn btn-secondary mt-3 d-none" onclick="restartQuiz()">Restart Quiz</button>
   </div>
 
   <script defer>
@@ -114,6 +121,7 @@
       document.getElementById("quiz-container").classList.remove("d-none");
       document.getElementById("result").classList.add("d-none");
       document.getElementById("result").innerHTML = "";
+      document.getElementById("restart-btn").classList.add("d-none");
       showQuestion();
     }
 
@@ -125,12 +133,12 @@
         return;
       }
       document.getElementById("question").innerText = q.q;
+      document.getElementById("question-info").innerText = `Question ${currentQuestion + 1} / ${questions[currentLevel].length}`;
       const optionsHtml = q.options.map((opt, index) =>
         `<div class="form-check">
           <input class="form-check-input" type="radio" name="option" value="${index}" id="opt${index}">
           <label class="form-check-label" for="opt${index}">${opt}</label>
-        </div>`
-      ).join('');
+        </div>`).join('');
       document.getElementById("options").innerHTML = optionsHtml;
       startTimer();
     }
@@ -138,9 +146,13 @@
     function startTimer() {
       timeLeft = timeLimits[currentLevel];
       document.getElementById("timer").innerText = `⏱ ${timeLeft}s`;
+      document.getElementById("timer").style.color = '#dc3545';
       timerInterval = setInterval(() => {
         timeLeft--;
         document.getElementById("timer").innerText = `⏱ ${timeLeft}s`;
+        if (timeLeft <= 5) {
+          document.getElementById("timer").style.color = 'red';
+        }
         if (timeLeft <= 0) {
           clearInterval(timerInterval);
           nextQuestion(true);
@@ -154,11 +166,9 @@
         alert("Please select an option!");
         return;
       }
-
       if (selected && parseInt(selected.value) === questions[currentLevel][currentQuestion].answer) {
         score++;
       }
-
       currentQuestion++;
       if (currentQuestion < questions[currentLevel].length) {
         showQuestion();
@@ -168,6 +178,14 @@
         const resultBox = document.getElementById("result");
         resultBox.classList.remove("d-none");
         resultBox.innerText = `🎉 Your Score: ${score} / ${questions[currentLevel].length}`;
+        document.getElementById("restart-btn").classList.remove("d-none");
+      }
+    }
+
+    function restartQuiz() {
+      const confirmRestart = confirm("Are you sure you want to restart the quiz?");
+      if (confirmRestart) {
+        startQuiz(currentLevel);
       }
     }
   </script>
