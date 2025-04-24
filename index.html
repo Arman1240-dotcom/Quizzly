@@ -19,6 +19,13 @@
       font-family: 'Poppins', sans-serif;
       background-color: #f0f2f5;
       margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Dark theme styles */
+    body.dark-mode {
+      background-color: #121212;
+      color: white;
     }
 
     .hero {
@@ -76,13 +83,8 @@
 
     .category-card {
       border: none;
-<<<<<<< HEAD
       border-radius: 1.5rem;
       padding: 2rem;
-=======
-      border-radius:2 rem;
-      padding: 8rem;
->>>>>>> d280f0f51ff279aaecd40caaaf63712500ea90d2
       background-color: white;
       box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
@@ -148,29 +150,67 @@
     footer i {
       font-size: 1.5rem;
     }
+
+    /* Dark theme footer */
+    footer.dark-mode {
+      background-color: #333;
+    }
+
+    /* Button styles for theme toggle */
+    .btn-toggle-theme {
+      position: fixed;
+      top: 10px; /* Adjusted position */
+      right: 20px;
+      z-index: 1000;
+      background-color: #0072ff; /* Bright background color */
+      border: none;
+      font-size: 1.5rem; /* Adjusted size to match the contact section style */
+      color: white;
+      padding: 12px 18px; /* Larger padding for a more prominent look */
+      border-radius: 50%; /* Circular shape */
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow to make it pop */
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn-toggle-theme:hover {
+      background-color: #0056b3; /* Darker shade on hover */
+      transform: scale(1.1); /* Slightly bigger on hover */
+    }
+
+    body.dark-mode .btn-toggle-theme {
+      background-color: #ff9800; /* Orange background in dark mode */
+    }
+
+    body.dark-mode .btn-toggle-theme:hover {
+      background-color: #e65100; /* Darker orange on hover in dark mode */
+    }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-  <div class="container">
-    <a class="navbar-brand fw-bold" href="#"><i class="fas fa-brain me-2"></i>Quizzly</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav ms-auto">
-        <li class="nav-item"><a class="nav-link active" href="quiz-random.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="quiz-random.html">Quizzes</a></li>
-        <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li> <!-- Link to leaderboard page -->
-        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li> <!-- Link to contact page -->
-      </ul>
-    </div>
-  </div>
-</nav>
+  <!-- Theme Toggle Button -->
+  <button class="btn-toggle-theme" onclick="toggleTheme()">
+    <i class="fas fa-moon"></i>
+  </button>
 
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#"><i class="fas fa-brain me-2"></i>Quizzly</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="quiz-random.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="quiz-random.html">Quizzes</a></li>
+          <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
   <!-- Hero Section -->
   <section class="hero text-center">
@@ -232,7 +272,11 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init();
+
+    // Toggle theme function
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+    }
   </script>
 </body>
 </html>
-
