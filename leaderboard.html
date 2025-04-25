@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 <!-- leaderboard.html -->
+=======
+>>>>>>> 9e9191dcfd10c9ac3a7921df969745f713963f88
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +14,10 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
 </head>
 <body>
+<<<<<<< HEAD
+=======
+  <!-- Navbar -->
+>>>>>>> 9e9191dcfd10c9ac3a7921df969745f713963f88
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container">
       <a class="navbar-brand fw-bold" href="#"><i class="fas fa-brain me-2"></i>Quizzly</a>
@@ -31,7 +38,25 @@
   <!-- Leaderboard Section -->
   <section class="py-5 bg-white">
     <div class="container">
+<<<<<<< HEAD
       <h2 class="text-center fw-bold mb-5">Leaderboard</h2>
+=======
+      <h2 class="text-center fw-bold mb-4">Leaderboard</h2>
+
+      <!-- Score Submission Form -->
+      <div class="row justify-content-center mb-4">
+        <div class="col-md-6">
+          <div class="input-group mb-2">
+            <input type="text" id="name" class="form-control" placeholder="Enter your name">
+            <input type="number" id="score" class="form-control" placeholder="Enter your score">
+            <input type="text" id="category" class="form-control" placeholder="Enter category">
+            <button class="btn btn-success" onclick="addScore()">Submit</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard Table -->
+>>>>>>> 9e9191dcfd10c9ac3a7921df969745f713963f88
       <div class="table-responsive">
         <table class="table table-hover align-middle table-bordered">
           <thead class="table-dark">
@@ -42,6 +67,7 @@
               <th scope="col">Category</th>
             </tr>
           </thead>
+<<<<<<< HEAD
           <tbody>
             <tr>
               <td>1</td>
@@ -61,6 +87,10 @@
               <td>92</td>
               <td>Geography</td>
             </tr>
+=======
+          <tbody id="leaderboard-body">
+            <!-- Dynamic rows go here -->
+>>>>>>> 9e9191dcfd10c9ac3a7921df969745f713963f88
           </tbody>
         </table>
       </div>
@@ -85,5 +115,56 @@
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<<<<<<< HEAD
+=======
+
+  <!-- Leaderboard Script -->
+  <script>
+    let leaderboard = [
+      { name: "Alice", score: 98, category: "History" },
+      { name: "Bob", score: 95, category: "Science" },
+      { name: "Charlie", score: 92, category: "Geography" }
+    ];
+
+    function updateLeaderboard() {
+      const leaderboardBody = document.getElementById("leaderboard-body");
+      leaderboardBody.innerHTML = "";
+
+      leaderboard.sort((a, b) => b.score - a.score);
+
+      leaderboard.forEach((entry, index) => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${index + 1}</td>
+          <td>${entry.name}</td>
+          <td>${entry.score}</td>
+          <td>${entry.category}</td>
+        `;
+
+        leaderboardBody.appendChild(row);
+      });
+    }
+
+    function addScore() {
+      const name = document.getElementById("name").value.trim();
+      const score = parseInt(document.getElementById("score").value);
+      const category = document.getElementById("category").value.trim();
+
+      if (name && !isNaN(score) && category) {
+        leaderboard.push({ name, score, category });
+        document.getElementById("name").value = "";
+        document.getElementById("score").value = "";
+        document.getElementById("category").value = "";
+        updateLeaderboard();
+      } else {
+        alert("Please fill out all fields with valid values.");
+      }
+    }
+
+    // Initialize leaderboard on page load
+    updateLeaderboard();
+  </script>
+>>>>>>> 9e9191dcfd10c9ac3a7921df969745f713963f88
 </body>
 </html>
