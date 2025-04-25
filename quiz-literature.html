@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Quizzly - Literature Quiz</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f7f7f7, #e0e0e0);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+    }
+    .quiz-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 2rem 3rem;
+      max-width: 600px;
+      width: 90%;
+      text-align: center;
+    }
+    h1, h2 {
+      color: #333;
+      font-weight: 700;
+    }
+    .btn {
+      border-radius: 30px;
+      padding: 10px 25px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: 0.3s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
+    .option-btn {
+      display: block;
+      width: 100%;
+      margin: 10px 0;
+    }
+    .option-btn:hover:not(:disabled) {
+      background-color: #0d6efd;
+      color: white;
+      border-color: #0d6efd;
+    }
+    #timer {
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .result-screen {
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="startScreen" class="quiz-container fade-in">
+    <h1>Welcome to Quizzly</h1>
+    <p>Test your knowledge of Literature</p>
+    <label for="questionCount" class="form-label">Select number of questions:</label>
+    <select class="form-select mb-3" id="questionCount">
+      <option value="5">5 Questions</option>
+      <option value="10" selected>10 Questions</option>
+      <option value="20">20 Questions</option>
+    </select>
+    <button class="btn btn-primary" onclick="startQuiz(parseInt(document.getElementById('questionCount').value))">Start Quiz</button>
+  </div>
+
+  <div id="quizScreen" class="quiz-container fade-in" style="display:none;">
+    <div id="questionNumber" class="mb-2"></div>
+    <div id="questionText" class="mb-3"></div>
+    <div id="options"></div>
+    <div class="mt-3">
+      <button id="nextBtn" class="btn btn-success" onclick="nextQuestion()">Next</button>
+      <button id="submitBtn" class="btn btn-danger" onclick="showResult()" style="display:none;">Submit</button>
+    </div>
+  </div>
+
+  <div id="resultScreen" class="result-screen fade-in" style="display:none;">
+    <h2>Quiz Complete!</h2>
+    <p>Your Score: <strong id="finalScore"></strong></p>
+    <button class="btn btn-secondary" onclick="restartQuiz()">Try Again</button>
+  </div>
+
+  <script>
+    const allQuestions = [
+      { question: "Who wrote 'Romeo and Juliet'?", options: ["William Shakespeare", "Charles Dickens", "Jane Austen", "Oscar Wilde"], answer: "William Shakespeare" },
+      { question: "What is the name of the wizarding school in Harry Potter?", options: ["Beauxbatons", "Durmstrang", "Hogwarts", "Ilvermorny"], answer: "Hogwarts" },
+      { question: "Who wrote 'Pride and Prejudice'?", options: ["Emily Brontë", "Jane Austen", "Charlotte Brontë", "Mary Shelley"], answer: "Jane Austen" },
+      { question: "Which novel begins with 'Call me Ishmael'?", options: ["Treasure Island", "The Odyssey", "Moby-Dick", "The Old Man and the Sea"], answer: "Moby-Dick" },
+      { question: "Who is the author of '1984'?", options: ["George Orwell", "Aldous Huxley", "Ray Bradbury", "J.D. Salinger"], answer: "George Orwell" },
+      { question: "What is the name of Sherlock Holmes' assistant?", options: ["Moriarty", "Lestrade", "Watson", "Mycroft"], answer: "Watson" },
+      { question: "Which novel features the character Atticus Finch?", options: ["The Great Gatsby", "To Kill a Mockingbird", "Of Mice and Men", "The Catcher in the Rye"], answer: "To Kill a Mockingbird" },
+      { question: "Who wrote 'The Picture of Dorian Gray'?", options: ["Oscar Wilde", "Edgar Allan Poe", "Mark Twain", "F. Scott Fitzgerald"], answer: "Oscar Wilde" },
+      { question: "Which poet wrote 'The Raven'?", options: ["Robert Frost", "William Wordsworth", "Edgar Allan Poe", "Walt Whitman"], answer: "Edgar Allan Poe" },
+      { question: "In which book does the character Frodo Baggins appear?", options: ["The Hobbit", "The Silmarillion", "The Lord of the Rings", "Harry Potter"], answer: "The Lord of the Rings" },
+      { question: "What is the first book in the 'Chronicles of Narnia' series?", options: ["The Lion, the Witch and the Wardrobe", "Prince Caspian", "The Magician's Nephew", "The Horse and His Boy"], answer: "The Magician's Nephew" },
+      { question: "Who wrote 'Brave New World'?", options: ["George Orwell", "Aldous Huxley", "Jules Verne", "Philip K. Dick"], answer: "Aldous Huxley" },
+      { question: "Which Shakespeare play features the character Iago?", options: ["Hamlet", "Othello", "Macbeth", "King Lear"], answer: "Othello" },
+      { question: "Who wrote 'The Divine Comedy'?", options: ["Virgil", "Dante Alighieri", "Homer", "Plato"], answer: "Dante Alighieri" },
+      { question: "Which novel is set in the dystopian world of Gilead?", options: ["Fahrenheit 451", "Brave New World", "The Handmaid's Tale", "1984"], answer: "The Handmaid's Tale" }
+    ];
+
+    let selectedQuestions = [];
+    let currentQuestion = 0;
+    let score = 0;
+    let timerInterval;
+
+    function startQuiz(numQuestions) {
+      selectedQuestions = shuffleArray([...allQuestions]).slice(0, numQuestions);
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("quizScreen").style.display = "block";
+      loadQuestion();
+    }
+
+    function loadQuestion() {
+      clearInterval(timerInterval);
+      const q = selectedQuestions[currentQuestion];
+      document.getElementById("questionText").innerHTML = `<div id="timer" class="text-danger">Time Left: 10s</div><div class="mt-2">${q.question}</div>`;
+      document.getElementById("questionNumber").innerText = `Question ${currentQuestion + 1} of ${selectedQuestions.length}`;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.className = "btn btn-outline-primary option-btn";
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(btn);
+      });
+      document.getElementById("nextBtn").style.display = currentQuestion < selectedQuestions.length - 1 ? "inline-block" : "none";
+      document.getElementById("submitBtn").style.display = currentQuestion === selectedQuestions.length - 1 ? "inline-block" : "none";
+      startTimer(10);
+    }
+
+    function checkAnswer(selected) {
+      clearInterval(timerInterval);
+      const correct = selectedQuestions[currentQuestion].answer;
+      if (selected === correct) score++;
+      Array.from(document.getElementById("options").children).forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove("btn-outline-primary");
+        if (btn.innerText === correct) {
+          btn.classList.add("btn-success");
+        } else if (btn.innerText === selected) {
+          btn.classList.add("btn-danger");
+        }
+      });
+    }
+
+    function startTimer(seconds) {
+      let timeLeft = seconds;
+      const timer = document.getElementById("timer");
+      timer.innerText = `Time Left: ${timeLeft}s`;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timer.innerText = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          disableOptions();
+          timer.innerText = `⏰ Time's up!`;
+        }
+      }, 1000);
+    }
+
+    function disableOptions() {
+      Array.from(document.getElementById("options").children).forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove("btn-outline-primary");
+      });
+    }
+
+    function nextQuestion() {
+      if (currentQuestion < selectedQuestions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
+      }
+    }
+
+    function showResult() {
+      clearInterval(timerInterval);
+      document.getElementById("quizScreen").style.display = "none";
+      document.getElementById("resultScreen").style.display = "block";
+      document.getElementById("finalScore").innerText = `${score} out of ${selectedQuestions.length}`;
+    }
+
+    function restartQuiz() {
+      document.getElementById("resultScreen").style.display = "none";
+      document.getElementById("startScreen").style.display = "block";
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
+  </script>
+</body>
+</html>
