@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Leaderboard</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<style>
+    /* styles.css */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 800px;
+  margin: 50px auto;
+  text-align: center;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+  color: #333;
+}
+
+.add-score {
+  margin-bottom: 20px;
+}
+
+input {
+  padding: 8px;
+  margin: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+button {
+  padding: 10px 15px;
+  background-color: #5cb85c;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #4cae4c;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  background-color: #f8f8f8;
+  color: #333;
+}
+
+</style>
+<body>
+
+  <div class="container">
+    <h1>Leaderboard</h1>
+    
+    <!-- Form to add a new score -->
+    <div class="add-score">
+      <input type="text" id="name" placeholder="Enter your name" />
+      <input type="number" id="score" placeholder="Enter your score" />
+      <button onclick="addScore()">Submit</button>
+    </div>
+
+    <!-- Leaderboard Table -->
+    <table id="leaderboard">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboard-body">
+        <!-- Dynamic rows will be added here -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>// script.js
+
+    // Sample leaderboard data (you can replace this with a database or API call)
+    let leaderboard = [
+      { name: "Alice", score: 100 },
+      { name: "Bob", score: 90 },
+      { name: "Charlie", score: 80 }
+    ];
+    
+    // Function to update the leaderboard table
+    function updateLeaderboard() {
+      const leaderboardBody = document.getElementById("leaderboard-body");
+      leaderboardBody.innerHTML = "";
+    
+      // Sort leaderboard by score in descending order
+      leaderboard.sort((a, b) => b.score - a.score);
+    
+      // Loop through leaderboard and create table rows
+      leaderboard.forEach((entry, index) => {
+        const row = document.createElement("tr");
+        
+        const rankCell = document.createElement("td");
+        rankCell.textContent = index + 1;
+        
+        const nameCell = document.createElement("td");
+        nameCell.textContent = entry.name;
+        
+        const scoreCell = document.createElement("td");
+        scoreCell.textContent = entry.score;
+        
+        row.appendChild(rankCell);
+        row.appendChild(nameCell);
+        row.appendChild(scoreCell);
+        
+        leaderboardBody.appendChild(row);
+      });
+    }
+    
+    // Function to add a new score
+    function addScore() {
+      const nameInput = document.getElementById("name");
+      const scoreInput = document.getElementById("score");
+      
+      const name = nameInput.value.trim();
+      const score = parseInt(scoreInput.value);
+      
+      if (name && !isNaN(score)) {
+        // Add new score to leaderboard
+        leaderboard.push({ name, score });
+        
+        // Clear inputs
+        nameInput.value = "";
+        scoreInput.value = "";
+        
+        // Update the leaderboard table
+        updateLeaderboard();
+      } else {
+        alert("Please enter a valid name and score.");
+      }
+    }
+    
+    // Initial leaderboard update on page load
+    updateLeaderboard();
+    </script>
+</body>
+</html>
