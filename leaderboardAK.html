@@ -1,7 +1,12 @@
+<<<<<<< HEAD
+=======
+<!-- leaderboard.html -->
+>>>>>>> 2627e3d9de466d71db330f3aaeb9100eea14e878
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
+<<<<<<< HEAD
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Leaderboard</title>
   <link rel="stylesheet" href="styles.css">
@@ -161,5 +166,89 @@ th {
     // Initial leaderboard update on page load
     updateLeaderboard();
     </script>
+=======
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard - Quizzly</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#"><i class="fas fa-brain me-2"></i>Quizzly</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="quiz-random.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="quiz-random.html">Quizzes</a></li>
+          <li class="nav-item"><a class="nav-link active" href="leaderboard.html">Leaderboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Leaderboard Section -->
+  <section class="py-5 bg-white">
+    <div class="container">
+      <h2 class="text-center fw-bold mb-5">Leaderboard</h2>
+      <div class="table-responsive">
+        <table class="table table-hover align-middle table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th scope="col">Rank</th>
+              <th scope="col">Player</th>
+              <th scope="col">Score</th>
+              <th scope="col">Category</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td>Alice</td>
+              <td>98</td>
+              <td>History</td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td>Bob</td>
+              <td>95</td>
+              <td>Science</td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td>Charlie</td>
+              <td>92</td>
+              <td>Geography</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="text-white text-center py-4 bg-dark">
+    <div class="container">
+      <p class="mb-1">&copy; 2025 <strong>Quizzly</strong>. All rights reserved.</p>
+      <p class="mb-0">
+        This site and its content are the intellectual property of Quizzly. Unauthorized copying or reproduction is prohibited.
+      </p>
+      <small>
+        Follow us on
+        <a href="#"><i class="fab fa-twitter mx-2 text-white"></i></a>
+        <a href="#"><i class="fab fa-facebook-f mx-2 text-white"></i></a>
+        <a href="#"><i class="fab fa-instagram mx-2 text-white"></i></a>
+      </small>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+>>>>>>> 2627e3d9de466d71db330f3aaeb9100eea14e878
 </body>
 </html>

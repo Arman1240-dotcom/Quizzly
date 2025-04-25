@@ -17,7 +17,15 @@
   <style>
     body {
       font-family: 'Poppins', sans-serif;
-      background-color: #f8f9fa;
+      background-color: #f0f2f5;
+      margin: 0;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    /* Dark theme styles */
+    body.dark-mode {
+      background-color: #121212;
+      color: white;
     }
     #logo {
       height: 30px;
@@ -37,8 +45,8 @@
       position: absolute;
       top: 0; left: 0;
       width: 100%; height: 100%;
-      background: rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(4px);
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(6px);
       z-index: 0;
     }
 
@@ -48,8 +56,18 @@
     }
 
     .hero h1 {
-      font-size: 4rem;
+      font-size: 4.5rem;
       font-weight: 700;
+      letter-spacing: 1px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.4);
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      font-weight: 300;
+      max-width: 600px;
+      margin: 20px auto;
+      line-height: 1.6;
     }
 
     .btn-gradient {
@@ -57,47 +75,128 @@
       color: white;
       border: none;
       transition: all 0.3s ease-in-out;
+      font-size: 1.2rem;
+      padding: 12px 25px;
+      border-radius: 30px;
     }
 
     .btn-gradient:hover {
       transform: scale(1.05);
-      box-shadow: 0 0.5rem 1rem rgba(0, 114, 255, 0.4);
+      box-shadow: 0 0.5rem 1rem rgba(0, 114, 255, 0.5);
     }
 
     .category-card {
       border: none;
-      border-radius:2 rem;
-      padding: 8rem;
+      border-radius: 1.5rem;
+      padding: 2rem;
       background-color: white;
-      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.05);
+      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.1);
       transition: all 0.3s ease;
+      text-align: center;
+      min-height: 250px;
     }
 
     .category-card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.1);
+      box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
     }
 
-    .card-icon {
-      font-size: 3rem;
+    .category-card .card-icon {
+      font-size: 3.5rem;
       color: #0072ff;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .category-card:hover .card-icon {
+      transform: scale(1.1);
+      color: #00c6ff;
+    }
+
+    .category-card h5 {
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .category-card p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: #6c757d;
+    }
+
+    .category-card a {
+      padding: 10px 25px;
+      border-radius: 25px;
+      font-size: 1rem;
+      transition: background-color 0.3s;
+    }
+
+    .category-card a:hover {
+      background-color: #0072ff;
+      color: white;
     }
 
     footer {
       background-color: #1c1c1c;
+      padding: 40px 0;
     }
 
     footer a {
-      transition: color 0.3s;
+      transition: color 0.3s, transform 0.3s;
     }
 
     footer a:hover {
       color: #00c6ff;
+      transform: scale(1.1);
+    }
+
+    footer i {
+      font-size: 1.5rem;
+    }
+
+    /* Dark theme footer */
+    footer.dark-mode {
+      background-color: #333;
+    }
+
+    /* Button styles for theme toggle */
+    .btn-toggle-theme {
+      position: fixed;
+      top: 10px; /* Adjusted position */
+      right: 20px;
+      z-index: 1000;
+      background-color: #0072ff; /* Bright background color */
+      border: none;
+      font-size: 1.5rem; /* Adjusted size to match the contact section style */
+      color: white;
+      padding: 12px 18px; /* Larger padding for a more prominent look */
+      border-radius: 50%; /* Circular shape */
+      cursor: pointer;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Shadow to make it pop */
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .btn-toggle-theme:hover {
+      background-color: #0056b3; /* Darker shade on hover */
+      transform: scale(1.1); /* Slightly bigger on hover */
+    }
+
+    body.dark-mode .btn-toggle-theme {
+      background-color: #ff9800; /* Orange background in dark mode */
+    }
+
+    body.dark-mode .btn-toggle-theme:hover {
+      background-color: #e65100; /* Darker orange on hover in dark mode */
     }
   </style>
 </head>
 <body>
+
+  <!-- Theme Toggle Button -->
+  <button class="btn-toggle-theme" onclick="toggleTheme()">
+    <i class="fas fa-moon"></i>
+  </button>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
@@ -108,10 +207,10 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Quizzes</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Leaderboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+          <li class="nav-item"><a class="nav-link active" href="quiz-random.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="quiz-random.html">Quizzes</a></li>
+          <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
         </ul>
       </div>
     </div>
@@ -132,7 +231,7 @@
       <h2 class="text-center mb-5 fw-bold" data-aos="fade-down">Quiz Categories</h2>
       <div class="row g-4">
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="100">
-          <div class="category-card text-center">
+          <div class="category-card">
             <i class="fas fa-landmark card-icon"></i>
             <h5 class="card-title">History</h5>
             <p class="card-text">Explore important historical events and personalities.</p>
@@ -140,7 +239,7 @@
           </div>
         </div>
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="200">
-          <div class="category-card text-center">
+          <div class="category-card">
             <i class="fas fa-flask card-icon"></i>
             <h5 class="card-title">Science</h5>
             <p class="card-text">Challenge yourself with fascinating science facts.</p>
@@ -148,7 +247,7 @@
           </div>
         </div>
         <div class="col-md-4" data-aos="fade-up" data-aos-delay="300">
-          <div class="category-card text-center">
+          <div class="category-card">
             <i class="fas fa-globe-americas card-icon"></i>
             <h5 class="card-title">Geography</h5>
             <p class="card-text">Test your knowledge of countries, cities, and landscapes.</p>
@@ -177,6 +276,11 @@
   <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
   <script>
     AOS.init();
+
+    // Toggle theme function
+    function toggleTheme() {
+      document.body.classList.toggle('dark-mode');
+    }
   </script>
 </body>
 </html>

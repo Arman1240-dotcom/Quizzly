@@ -1,128 +1,417 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Quizzly - Science Quiz</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quizzly - History Quiz</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
   <style>
     body {
-      background: linear-gradient(135deg, #f0f9ff, #a0e0ff);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f7f7f7, #e0e0e0);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
     }
-
-    .quiz-box {
-      background: white;
+    .quiz-container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(10px);
       border-radius: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-      padding: 40px;
-      animation: fadeIn 0.6s ease-in-out;
-      width: 100%;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      padding: 2rem 3rem;
       max-width: 600px;
+      width: 90%;
+      text-align: center;
     }
-
+    h1, h2 {
+      color: #333;
+      font-weight: 700;
+    }
+    .btn {
+      border-radius: 30px;
+      padding: 10px 25px;
+      font-weight: 500;
+      font-size: 16px;
+      transition: 0.3s ease;
+    }
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    }
     .option-btn {
-      transition: 0.3s;
+      display: block;
+      width: 100%;
+      margin: 10px 0;
     }
-
-    .option-btn:hover {
-      transform: scale(1.03);
-    }
-
-    .correct {
-      background-color: #198754 !important;
+    .option-btn:hover:not(:disabled) {
+      background-color: #0d6efd;
       color: white;
+      border-color: #0d6efd;
     }
-
-    .wrong {
-      background-color: #dc3545 !important;
-      color: white;
+    #timer {
+      font-weight: bold;
+      margin-bottom: 10px;
     }
-
+    .result-screen {
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .fade-in {
+      animation: fadeIn 0.8s ease-in-out;
+    }
     @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <div class="container d-flex justify-content-center align-items-center min-vh-100">
-    <div class="quiz-box text-center" id="quiz-box">
-      <h4 class="mb-3" id="score-tracker">Score: 0</h4>
-      <h3 id="question"></h3>
-      <div class="d-grid gap-3 mt-4" id="options"></div>
-      <button class="btn btn-primary mt-4" onclick="nextQuestion()" id="next-btn" disabled>Next</button>
+  <div id="startScreen" class="quiz-container fade-in">
+    <h1>Welcome to Quizzly</h1>
+    <p>Test your knowledge of History</p>
+    <label for="questionCount" class="form-label">Select number of questions:</label>
+    <select class="form-select mb-3" id="questionCount">
+      <option value="5">5 Questions</option>
+      <option value="10" selected>10 Questions</option>
+      <option value="20">20 Questions</option>
+    </select>
+    <button class="btn btn-primary" onclick="startQuiz(parseInt(document.getElementById('questionCount').value))">Start Quiz</button>
+  </div>
+
+  <div id="quizScreen" class="quiz-container fade-in" style="display:none;">
+    <div id="questionNumber" class="mb-2"></div>
+    <div id="questionText" class="mb-3"></div>
+    <div id="options"></div>
+    <div class="mt-3">
+      <button id="nextBtn" class="btn btn-success" onclick="nextQuestion()">Next</button>
+      <button id="submitBtn" class="btn btn-danger" onclick="showResult()" style="display:none;">Submit</button>
     </div>
   </div>
 
+  <div id="resultScreen" class="result-screen fade-in" style="display:none;">
+    <h2>Quiz Complete!</h2>
+    <p>Your Score: <strong id="finalScore"></strong></p>
+    <button class="btn btn-secondary" onclick="restartQuiz()">Try Again</button>
+  </div>
+
   <script>
-    const quiz = [
-      { question: "Which instrument is used to measure atmospheric pressure?", options: ["Thermometer", "Barometer", "Altimeter", "Anemometer"], answer: "Barometer" },
-      { question: "What is the process of water cycle from plants called?", options: ["Evaporation", "Condensation", "Transpiration", "Precipitation"], answer: "Transpiration" },
-      { question: "Which gas is known as laughing gas?", options: ["Nitrous Oxide", "Carbon Dioxide", "Ozone", "Methane"], answer: "Nitrous Oxide" },
-      { question: "How many planets are in the Solar System?", options: ["8", "9", "7", "10"], answer: "8" },
-      { question: "What is the hardest natural substance on Earth?", options: ["Iron", "Diamond", "Gold", "Granite"], answer: "Diamond" },
-      { question: "Which part of the eye controls the amount of light that enters?", options: ["Pupil", "Cornea", "Lens", "Iris"], answer: "Iris" },
-      { question: "What is the study of fossils called?", options: ["Geology", "Paleontology", "Anthropology", "Archaeology"], answer: "Paleontology" },
-      { question: "What is the basic unit of life?", options: ["Atom", "Molecule", "Cell", "Tissue"], answer: "Cell" },
-      { question: "Which is the smallest bone in the human body?", options: ["Stapes", "Femur", "Tibia", "Humerus"], answer: "Stapes" },
-      { question: "Which scientist developed the theory of relativity?", options: ["Newton", "Einstein", "Galileo", "Curie"], answer: "Einstein" }
+    const allQuestions = [
+      { question: "Who was the first President of the United States?", options: ["George Washington", "Abraham Lincoln", "John Adams", "Thomas Jefferson"], answer: "George Washington" },
+      { question: "In which year did World War II end?", options: ["1942", "1945", "1948", "1939"], answer: "1945" },
+      { question: "Which civilization built the Machu Picchu?", options: ["Aztec", "Inca", "Maya", "Roman"], answer: "Inca" },
+      { question: "Who was known as the Iron Lady?", options: ["Angela Merkel", "Margaret Thatcher", "Indira Gandhi", "Golda Meir"], answer: "Margaret Thatcher" },
+      { question: "What was the name of the ship that sank in 1912?", options: ["Britannic", "Lusitania", "Queen Mary", "Titanic"], answer: "Titanic" },
+      { question: "Where did the American Revolution begin?", options: ["Lexington", "Boston", "Philadelphia", "New York"], answer: "Lexington" },
+      { question: "Who discovered America?", options: ["Columbus", "Vespucci", "Magellan", "Cook"], answer: "Columbus" },
+      { question: "When did the Berlin Wall fall?", options: ["1985", "1989", "1991", "1995"], answer: "1989" },
+      { question: "Which empire was ruled by Julius Caesar?", options: ["Roman", "Greek", "Ottoman", "British"], answer: "Roman" },
+      { question: "Who was the first woman Prime Minister of India?", options: ["Indira Gandhi", "Sonia Gandhi", "Sarojini Naidu", "Kalpana Chawla"], answer: "Indira Gandhi" },
+      { 
+    question: "Who was the famous nurse during the Crimean War?", 
+    options: ["Clara Barton", "Florence Nightingale", "Marie Curie", "Mother Teresa"], 
+    answer: "Florence Nightingale" 
+  },
+  { 
+    question: "Which revolution led to the rise of the Soviet Union?", 
+    options: ["American Revolution", "French Revolution", "Russian Revolution", "Industrial Revolution"], 
+    answer: "Russian Revolution" 
+  },
+  { 
+    question: "Who was assassinated on June 28, 1914, sparking WWI?", 
+    options: ["Kaiser Wilhelm II", "Archduke Franz Ferdinand", "Czar Nicholas II", "Gavrilo Princip"], 
+    answer: "Archduke Franz Ferdinand" 
+  },
+  { 
+    question: "What empire was centered in modern-day Turkey?", 
+    options: ["Roman", "Ottoman", "Byzantine", "Persian"], 
+    answer: "Ottoman" 
+  },
+  { 
+    question: "When did the Berlin Wall fall?", 
+    options: ["1987", "1988", "1989", "1990"], 
+    answer: "1989" 
+  },
+  { 
+    question: "Who led India to independence from British rule?", 
+    options: ["Jawaharlal Nehru", "Subhas Chandra Bose", "Indira Gandhi", "Mahatma Gandhi"], 
+    answer: "Mahatma Gandhi" 
+  },
+  { 
+    question: "Which U.S. President issued the Emancipation Proclamation?", 
+    options: ["George Washington", "Andrew Johnson", "Ulysses S. Grant", "Abraham Lincoln"], 
+    answer: "Abraham Lincoln" 
+  },
+  { 
+    question: "The Renaissance began in which country?", 
+    options: ["France", "Germany", "Italy", "England"], 
+    answer: "Italy" 
+  },
+  { 
+    question: "The 'Black Death' refers to what disease?", 
+    options: ["Typhoid", "Plague", "Smallpox", "Cholera"], 
+    answer: "Plague" 
+  },
+  { 
+    question: "Which civilization built Machu Picchu?", 
+    options: ["Aztec", "Inca", "Maya", "Olmec"], 
+    answer: "Inca" 
+  },
+  { 
+    question: "What major event happened in 1066?", 
+    options: ["Signing of the Magna Carta", "Battle of Hastings", "Fall of Rome", "Discovery of America"], 
+    answer: "Battle of Hastings" 
+  },
+  { 
+    question: "Which country was split into East and West after WWII?", 
+    options: ["Italy", "Poland", "Germany", "Austria"], 
+    answer: "Germany" 
+  },
+  { 
+    question: "What was the main cause of the French Revolution?", 
+    options: ["Religious conflict", "Monarchy’s power", "Economic crisis", "Foreign invasion"], 
+    answer: "Economic crisis" 
+  },
+  { 
+    question: "Who painted the ceiling of the Sistine Chapel?", 
+    options: ["Leonardo da Vinci", "Michelangelo", "Raphael", "Donatello"], 
+    answer: "Michelangelo" 
+  },
+  { 
+    question: "Who was the first man to step on the moon?", 
+    options: ["Yuri Gagarin", "Buzz Aldrin", "John Glenn", "Neil Armstrong"], 
+    answer: "Neil Armstrong" 
+  },
+  { 
+    question: "What was the name of Hitler’s autobiography?", 
+    options: ["Mein Kampf", "Das Kapital", "Der Führer", "Gestapo Files"], 
+    answer: "Mein Kampf" 
+  },
+  { 
+    question: "Who was known as the 'Iron Lady'?", 
+    options: ["Angela Merkel", "Golda Meir", "Margaret Thatcher", "Indira Gandhi"], 
+    answer: "Margaret Thatcher" 
+  },
+  { 
+    question: "Which empire came first?", 
+    options: ["Mongol", "Roman", "Persian", "Greek"], 
+    answer: "Greek" 
+  },
+  { 
+    question: "The Magna Carta was signed in which year?", 
+    options: ["1215", "1300", "1492", "1066"], 
+    answer: "1215" 
+  },
+  { 
+    question: "Who discovered penicillin?", 
+    options: ["Marie Curie", "Alexander Fleming", "Isaac Newton", "Louis Pasteur"], 
+    answer: "Alexander Fleming" 
+  },
+  { 
+    question: "The U.S. Declaration of Independence was signed in what year?", 
+    options: ["1775", "1776", "1781", "1791"], 
+    answer: "1776" 
+  },
+  { 
+    question: "Who was the first emperor of China?", 
+    options: ["Wu Zetian", "Qin Shi Huang", "Liu Bang", "Sun Yat-sen"], 
+    answer: "Qin Shi Huang" 
+  },
+  { 
+    question: "Which country gifted the Statue of Liberty to the United States?", 
+    options: ["France", "England", "Germany", "Italy"], 
+    answer: "France" 
+  },
+  { 
+    question: "The Wright brothers are credited with what invention?", 
+    options: ["Telephone", "Car", "Airplane", "Light Bulb"], 
+    answer: "Airplane" 
+  },
+  { 
+    question: "What year did the Titanic sink?", 
+    options: ["1910", "1911", "1912", "1913"], 
+    answer: "1912" 
+  },
+  { 
+    question: "The United Nations was established in which year?", 
+    options: ["1940", "1945", "1950", "1939"], 
+    answer: "1945" 
+  },
+  { 
+    question: "Who led the Soviet Union during WWII?", 
+    options: ["Lenin", "Khrushchev", "Trotsky", "Stalin"], 
+    answer: "Stalin" 
+  },
+  { 
+    question: "What war was fought in Korea in the 1950s?", 
+    options: ["Vietnam War", "Korean War", "World War II", "Cold War"], 
+    answer: "Korean War" 
+  },
+  { 
+    question: "Where did the Industrial Revolution begin?", 
+    options: ["France", "United States", "Germany", "England"], 
+    answer: "England" 
+  },
+  { 
+    question: "What city was divided by a wall from 1961 to 1989?", 
+    options: ["Berlin", "Paris", "Vienna", "Rome"], 
+    answer: "Berlin" 
+  },
+  { 
+    question: "Which treaty ended World War I?", 
+    options: ["Treaty of Paris", "Treaty of Versailles", "Treaty of Tordesillas", "Treaty of Rome"], 
+    answer: "Treaty of Versailles" 
+  },
+  { 
+    question: "What event began on October 29, 1929?", 
+    options: ["World War I", "Great Depression", "Stock Market Crash", "New Deal"], 
+    answer: "Stock Market Crash" 
+  },
+  { 
+    question: "Which explorer circumnavigated the globe?", 
+    options: ["Christopher Columbus", "Ferdinand Magellan", "James Cook", "Vasco da Gama"], 
+    answer: "Ferdinand Magellan" 
+  },
+  { 
+    question: "Who was President of the U.S. during the Cuban Missile Crisis?", 
+    options: ["Dwight D. Eisenhower", "John F. Kennedy", "Lyndon B. Johnson", "Richard Nixon"], 
+    answer: "John F. Kennedy" 
+  },
+  { 
+    question: "What ancient civilization built the pyramids?", 
+    options: ["Babylonians", "Greeks", "Romans", "Egyptians"], 
+    answer: "Egyptians" 
+  },
+  { 
+    question: "Which country was Napoleon Bonaparte from?", 
+    options: ["France", "Italy", "Austria", "Germany"], 
+    answer: "France" 
+  },
+  { 
+    question: "What sparked World War I?", 
+    options: ["Treaty violation", "Colonial conflict", "Assassination of Archduke", "Naval battles"], 
+    answer: "Assassination of Archduke" 
+  },
+  { 
+    question: "What was the name of the Nazi secret police?", 
+    options: ["Gestapo", "KGB", "CIA", "MI6"], 
+    answer: "Gestapo" 
+  },
+  { 
+    question: "Which Roman general became dictator for life?", 
+    options: ["Julius Caesar", "Augustus", "Mark Antony", "Nero"], 
+    answer: "Julius Caesar" 
+  },
+  { 
+    question: "Where was the ancient city of Troy located?", 
+    options: ["Greece", "Turkey", "Egypt", "Italy"], 
+    answer: "Turkey" 
+  },
+  
+   
     ];
 
-    let current = 0;
+    let selectedQuestions = [];
+    let currentQuestion = 0;
     let score = 0;
+    let timerInterval;
 
-    function showQuestion() {
-      document.getElementById("question").textContent = quiz[current].question;
-      const optionsDiv = document.getElementById("options");
-      optionsDiv.innerHTML = "";
-      document.getElementById("next-btn").disabled = true;
-
-      quiz[current].options.forEach(opt => {
-        const btn = document.createElement("button");
-        btn.className = "btn btn-outline-secondary option-btn";
-        btn.textContent = opt;
-        btn.onclick = () => checkAnswer(btn, opt);
-        optionsDiv.appendChild(btn);
-      });
-
-      document.getElementById("quiz-box").style.animation = "fadeIn 0.6s ease-in-out";
+    function startQuiz(numQuestions) {
+      selectedQuestions = shuffleArray([...allQuestions]).slice(0, numQuestions);
+      currentQuestion = 0;
+      score = 0;
+      document.getElementById("startScreen").style.display = "none";
+      document.getElementById("quizScreen").style.display = "block";
+      loadQuestion();
     }
 
-    function checkAnswer(btn, selected) {
-      const correct = quiz[current].answer;
-      const allButtons = document.querySelectorAll(".option-btn");
+    function loadQuestion() {
+      clearInterval(timerInterval);
+      const q = selectedQuestions[currentQuestion];
+      document.getElementById("questionText").innerHTML = `<div id="timer" class="text-danger">Time Left: 10s</div><div class="mt-2">${q.question}</div>`;
+      document.getElementById("questionNumber").innerText = `Question ${currentQuestion + 1} of ${selectedQuestions.length}`;
+      const optionsDiv = document.getElementById("options");
+      optionsDiv.innerHTML = "";
+      q.options.forEach(option => {
+        const btn = document.createElement("button");
+        btn.className = "btn btn-outline-primary option-btn";
+        btn.innerText = option;
+        btn.onclick = () => checkAnswer(option);
+        optionsDiv.appendChild(btn);
+      });
+      document.getElementById("nextBtn").style.display = currentQuestion < selectedQuestions.length - 1 ? "inline-block" : "none";
+      document.getElementById("submitBtn").style.display = currentQuestion === selectedQuestions.length - 1 ? "inline-block" : "none";
+      startTimer(10);
+    }
 
-      allButtons.forEach(button => button.disabled = true);
+    function checkAnswer(selected) {
+      clearInterval(timerInterval);
+      const correct = selectedQuestions[currentQuestion].answer;
+      if (selected === correct) score++;
+      Array.from(document.getElementById("options").children).forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove("btn-outline-primary");
+        if (btn.innerText === correct) {
+          btn.classList.add("btn-success");
+        } else if (btn.innerText === selected) {
+          btn.classList.add("btn-danger");
+        }
+      });
+    }
 
-      if (selected === correct) {
-        btn.classList.add("correct");
-        score++;
-      } else {
-        btn.classList.add("wrong");
-        allButtons.forEach(b => {
-          if (b.textContent === correct) b.classList.add("correct");
-        });
-      }
+    function startTimer(seconds) {
+      let timeLeft = seconds;
+      const timer = document.getElementById("timer");
+      timer.innerText = `Time Left: ${timeLeft}s`;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timer.innerText = `Time Left: ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          disableOptions();
+          timer.innerText = `⏰ Time's up!`;
+        }
+      }, 1000);
+    }
 
-      document.getElementById("score-tracker").textContent = `Score: ${score}`;
-      document.getElementById("next-btn").disabled = false;
+    function disableOptions() {
+      Array.from(document.getElementById("options").children).forEach(btn => {
+        btn.disabled = true;
+        btn.classList.remove("btn-outline-primary");
+      });
     }
 
     function nextQuestion() {
-      current++;
-      if (current < quiz.length) {
-        showQuestion();
-      } else {
-        document.getElementById("quiz-box").innerHTML = `
-          <h2 class="mb-4">🎉 Quiz Completed!</h2>
-          <h4>Your Final Score: ${score} / ${quiz.length}</h4>
-          <button class="btn btn-success mt-3" onclick="location.reload()">Try Again</button>
-        `;
+      if (currentQuestion < selectedQuestions.length - 1) {
+        currentQuestion++;
+        loadQuestion();
       }
     }
 
-    showQuestion();
+    function showResult() {
+      clearInterval(timerInterval);
+      document.getElementById("quizScreen").style.display = "none";
+      document.getElementById("resultScreen").style.display = "block";
+      document.getElementById("finalScore").innerText = `${score} out of ${selectedQuestions.length}`;
+    }
+
+    function restartQuiz() {
+      document.getElementById("resultScreen").style.display = "none";
+      document.getElementById("startScreen").style.display = "block";
+    }
+
+    function shuffleArray(arr) {
+      for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+      }
+      return arr;
+    }
   </script>
 </body>
 </html>
