@@ -85,6 +85,7 @@
       box-shadow: 0 0.5rem 1rem rgba(0, 114, 255, 0.5);
     }
 
+    /* Category Card styles */
     .category-card {
       border: none;
       border-radius: 1.5rem;
@@ -135,6 +136,35 @@
     .category-card a:hover {
       background-color: #0072ff;
       color: white;
+    }
+
+    /* Dark mode category card styles */
+    body.dark-mode .category-card {
+      background-color: #2c2c2c; /* Dark background */
+      color: white; /* Light text */
+    }
+
+    body.dark-mode .category-card .card-icon {
+      color: #ff9800; /* Change icon color in dark mode */
+    }
+
+    body.dark-mode .category-card .card-icon:hover {
+      color: #ffcc00; /* Highlight icon color on hover */
+    }
+
+    body.dark-mode .category-card h5,
+    body.dark-mode .category-card p {
+      color: white; /* Ensure text remains visible in dark mode */
+    }
+
+    body.dark-mode .category-card a {
+      border: 2px solid #ff9800; /* Orange border for links */
+      color: #ff9800; /* Orange text */
+    }
+
+    body.dark-mode .category-card a:hover {
+      background-color: #ff9800; /* Orange background on hover */
+      color: white; /* White text on hover */
     }
 
     footer {
@@ -212,8 +242,7 @@
           <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-<li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
-
+          <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
         </ul>
       </div>
     </div>
@@ -284,8 +313,6 @@
     function toggleTheme() {
       document.body.classList.toggle('dark-mode');
     }
-    app.use(express.static(path.join(__dirname, "public")));
-
   </script>
 </body>
 </html>
