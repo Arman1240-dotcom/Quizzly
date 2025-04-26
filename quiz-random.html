@@ -9,11 +9,17 @@
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(to right, #e0eafc, #cfdef3);
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
     .level-btn {
       font-size: 1.1rem;
       padding: 10px 20px;
       border-radius: 50px;
+    }
+    .content {
+      flex: 1; /* This makes sure the content takes up the available space */
     }
   </style>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
@@ -29,22 +35,23 @@
           <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
           <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
           <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-<li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
-
+          <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
         </ul>
       </div>
     </div>
   </nav>
-
 </head>
 <body>
-  <div class="container py-5 text-center">
-    <h1 class="display-5 fw-bold mb-4">🎯 Quiz Challenge</h1>
-    <p class="lead mb-4">Select a difficulty level to begin your quiz journey!</p>
-    <div class="d-flex justify-content-center mb-5">
-      <button class="btn btn-success mx-2 level-btn" onclick="startQuiz('easy')">Easy</button>
-      <button class="btn btn-warning mx-2 level-btn" onclick="startQuiz('medium')">Medium</button>
-      <button class="btn btn-danger mx-2 level-btn" onclick="startQuiz('hard')">Hard</button>
+
+  <div class="content">
+    <div class="container py-5 text-center">
+      <h1 class="display-5 fw-bold mb-4">🎯 Quiz Challenges</h1>
+      <p class="lead mb-4">Select a difficulty level to begin your quiz journey!</p>
+      <div class="d-flex justify-content-center mb-5">
+        <button class="btn btn-success mx-2 level-btn" onclick="startQuiz('easy')">Easy</button>
+        <button class="btn btn-warning mx-2 level-btn" onclick="startQuiz('medium')">Medium</button>
+        <button class="btn btn-danger mx-2 level-btn" onclick="startQuiz('hard')">Hard</button>
+      </div>
     </div>
   </div>
 
@@ -60,6 +67,8 @@
       }
     }
   </script>
+
+  <!-- Footer -->
   <footer class="text-white text-center py-4 bg-dark">
     <div class="container">
       <p class="mb-1">&copy; 2025 <strong>Quizzly</strong>. All rights reserved.</p>
