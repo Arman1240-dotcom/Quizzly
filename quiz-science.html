@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quizzly - Science Quiz</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
@@ -12,9 +12,11 @@
       background: linear-gradient(135deg, #f7f7f7, #e0e0e0);
       min-height: 100vh;
       display: flex;
-      align-items: center;
       justify-content: center;
+      align-items: center;
       margin: 0;
+      padding-top: 80px;
+      transition: all 0.5s ease-in-out;
     }
     .quiz-container {
       background: rgba(255, 255, 255, 0.95);
@@ -25,10 +27,12 @@
       max-width: 600px;
       width: 90%;
       text-align: center;
+      transition: all 0.3s ease-in-out;
     }
     h1, h2 {
       color: #333;
       font-weight: 700;
+      animation: fadeIn 1s ease-out;
     }
     .btn {
       border-radius: 30px;
@@ -45,6 +49,8 @@
       display: block;
       width: 100%;
       margin: 10px 0;
+      opacity: 0;
+      animation: fadeInOption 1s forwards;
     }
     .option-btn:hover:not(:disabled) {
       background-color: #0d6efd;
@@ -54,6 +60,11 @@
     #timer {
       font-weight: bold;
       margin-bottom: 10px;
+      transition: opacity 0.5s ease-in-out;
+    }
+    .progress-bar {
+      height: 8px;
+      transition: width 0.5s ease-in-out;
     }
     .result-screen {
       background-color: #fff;
@@ -61,6 +72,7 @@
       padding: 2rem;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       text-align: center;
+      animation: fadeInResult 1s ease-out;
     }
     .fade-in {
       animation: fadeIn 0.8s ease-in-out;
@@ -69,9 +81,44 @@
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
+    @keyframes fadeInOption {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeInResult {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .navbar {
+      margin-bottom: 30px;
+    }
+    .navbar-brand {
+      font-weight: 700;
+    }
+    .container-fluid {
+      max-width: 1200px;
+      padding: 0 15px;
+    }
   </style>
 </head>
 <body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#">Quizzly</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Quizzes</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Leaderboard</a></li>
+          <li class="nav-item"><a class="nav-link" href="#">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
   <div id="startScreen" class="quiz-container fade-in">
     <h1>Welcome to Quizzly</h1>
     <p>Test your knowledge of Science</p>
@@ -92,6 +139,12 @@
       <button id="nextBtn" class="btn btn-success" onclick="nextQuestion()">Next</button>
       <button id="submitBtn" class="btn btn-danger" onclick="showResult()" style="display:none;">Submit</button>
     </div>
+    <div class="mt-4">
+      <div class="progress">
+        <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <div id="timer" class="mt-2"></div>
+    </div>
   </div>
 
   <div id="resultScreen" class="result-screen fade-in" style="display:none;">
@@ -102,7 +155,7 @@
 
   <script>
     const allQuestions = [
-    { question: "What is the chemical symbol for Gold?", options: ["Au", "Ag", "Gd", "Go"], answer: "Au" },
+      { question: "What is the chemical symbol for Gold?", options: ["Au", "Ag", "Gd", "Go"], answer: "Au" },
     { question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Saturn"], answer: "Mars" },
     { question: "What part of the cell contains the genetic material?", options: ["Cytoplasm", "Nucleus", "Mitochondria", "Ribosome"], answer: "Nucleus" },
     { question: "Which gas is most abundant in Earth’s atmosphere?", options: ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"], answer: "Nitrogen" },
@@ -122,7 +175,6 @@
     { question: "What is the main gas in the Sun?", options: ["Oxygen", "Hydrogen", "Nitrogen", "Helium"], answer: "Hydrogen" },
     { question: "How many bones are in an adult body?", options: ["206", "201", "198", "210"], answer: "206" },
     { question: "Newton’s Third Law of Motion?", options: ["F = ma", "An object in motion stays in motion", "For every action, there is an equal and opposite reaction", "Force is mass times acceleration"], answer: "For every action, there is an equal and opposite reaction" }
-    
     ];
 
     let selectedQuestions = [];
@@ -155,43 +207,21 @@
       });
       document.getElementById("nextBtn").style.display = currentQuestion < selectedQuestions.length - 1 ? "inline-block" : "none";
       document.getElementById("submitBtn").style.display = currentQuestion === selectedQuestions.length - 1 ? "inline-block" : "none";
-      startTimer(10);
+      startTimer();
+      updateProgress();
     }
 
     function checkAnswer(selected) {
-      clearInterval(timerInterval);
-      const correct = selectedQuestions[currentQuestion].answer;
-      if (selected === correct) score++;
-      Array.from(document.getElementById("options").children).forEach(btn => {
-        btn.disabled = true;
-        btn.classList.remove("btn-outline-primary");
-        if (btn.innerText === correct) {
-          btn.classList.add("btn-success");
-        } else if (btn.innerText === selected) {
-          btn.classList.add("btn-danger");
-        }
-      });
-    }
-
-    function startTimer(seconds) {
-      let timeLeft = seconds;
-      const timer = document.getElementById("timer");
-      timer.innerText = `Time Left: ${timeLeft}s`;
-      timerInterval = setInterval(() => {
-        timeLeft--;
-        timer.innerText = `Time Left: ${timeLeft}s`;
-        if (timeLeft <= 0) {
-          clearInterval(timerInterval);
-          disableOptions();
-          timer.innerText = `⏰ Time's up!`;
-        }
-      }, 1000);
+      const correctAnswer = selectedQuestions[currentQuestion].answer;
+      if (selected === correctAnswer) {
+        score++;
+      }
+      disableOptions();
     }
 
     function disableOptions() {
-      Array.from(document.getElementById("options").children).forEach(btn => {
-        btn.disabled = true;
-        btn.classList.remove("btn-outline-primary");
+      document.querySelectorAll(".option-btn").forEach(button => {
+        button.disabled = true;
       });
     }
 
@@ -203,15 +233,34 @@
     }
 
     function showResult() {
-      clearInterval(timerInterval);
       document.getElementById("quizScreen").style.display = "none";
       document.getElementById("resultScreen").style.display = "block";
-      document.getElementById("finalScore").innerText = `${score} out of ${selectedQuestions.length}`;
+      document.getElementById("finalScore").innerText = `${score} / ${selectedQuestions.length}`;
     }
 
     function restartQuiz() {
       document.getElementById("resultScreen").style.display = "none";
       document.getElementById("startScreen").style.display = "block";
+    }
+
+    function startTimer() {
+      let timeLeft = 10;
+      document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = `Time Left: ${timeLeft}s`;
+        if (timeLeft === 0) {
+          clearInterval(timerInterval);
+          nextQuestion();
+        }
+      }, 1000);
+    }
+
+    function updateProgress() {
+      let progress = ((currentQuestion + 1) / selectedQuestions.length) * 100;
+      const progressBar = document.getElementById("progressBar");
+      progressBar.style.width = `${progress}%`;
+      progressBar.setAttribute("aria-valuenow", progress);
     }
 
     function shuffleArray(arr) {
@@ -222,5 +271,7 @@
       return arr;
     }
   </script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
