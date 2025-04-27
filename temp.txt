@@ -1,0 +1,46 @@
+ <link rel="stylesheet" href="togglebtn.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+
+      :root {
+      --background-light: #f0f2f5;
+      --background-dark: #121212;
+      --text-light: #000000;
+      --text-dark: #ffffff;
+      --category-card-light: #ffffff;
+      --category-card-dark: #2c2c2c;
+      --btn-light: #007bff;
+      --btn-dark: #ff9800;
+      --grad-light:#00c6ff ;
+      --grad-dark:#ff8800;
+    }  
+  
+  <label class="toggle-switch">
+    <input type="checkbox" id="darkModeToggle">
+    <span class="slider"></span>
+  </label>
+  
+
+
+  <script>
+    AOS.init();
+    // Get the dark mode toggle checkbox element
+    const toggle = document.getElementById("darkModeToggle");
+
+    // Load saved preference on page load
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      document.body.classList.add('dark-mode');
+      toggle.checked = true;
+    }
+
+    // Event listener for when the toggle is changed
+    toggle.addEventListener("change", () => {
+      if (toggle.checked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "enabled");
+      } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "disabled");
+      }
+    });
+  </script>

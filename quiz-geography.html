@@ -6,20 +6,40 @@
   <title>Quizzly - Geography Quiz</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
-  <style>
+  <link rel="stylesheet" href="togglebtn.css">
+ <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+ <style>
+        :root {
+      --background-light: #f0f2f5;
+      --background-dark: #121212;
+      --text-light: #000000;
+      --text-dark: #ffffff;
+      --category-card-light: #ffffff;
+      --category-card-dark: #2c2c2c;
+      --btn-light: #007bff;
+      --btn-dark: #ff9800;
+      --grad-light:#00c6ff ;
+      --grad-dark:#ff8800;
+    }  
     body {
-      font-family: 'Poppins', sans-serif;
-      background: linear-gradient(135deg, #f7f7f7, #e0e0e0);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0;
-      padding-top: 80px;
-      transition: all 0.5s ease-in-out;
-    }
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0;
+  padding-top: 80px;
+  transition: all 0.5s ease-in-out;
+}
+
+
+body.dark-mode {
+  background-color: var(--category-card-dark); 
+  color: var(--text-dark);  
+}
     .quiz-container {
-      background: rgba(255, 255, 255, 0.95);
+      background-color:var(--background-light) ;
       backdrop-filter: blur(10px);
       border-radius: 20px;
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
@@ -29,34 +49,59 @@
       text-align: center;
       transition: all 0.3s ease-in-out;
     }
+    body.dark-mode .quiz-container {
+      background-color: var(--background-dark);
+      color: var(--text-dark);
+      border: 2px solid #ff8800;
+    }
     h1, h2 {
-      color: #333;
+      color: var(--category-card-dark);
       font-weight: 700;
       animation: fadeIn 1s ease-out;
     }
+    body.dark-mode h1, body.dark-mode h2 {
+      color: var(--text-dark);
+    }
     .btn {
+      background-color: var(--btn-light);
+      border: var(--btn-light);
       border-radius: 30px;
       padding: 10px 25px;
       font-weight: 500;
       font-size: 16px;
       transition: 0.3s ease;
     }
+    body.dark-mode .btn {
+      background-color: var(--btn-dark);
+      border: var(--btn-dark);
+    }
     .btn:hover {
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     }
     .option-btn {
+      background-color:var(--text-dark);
+      color: var(--text-light);
       display: block;
       width: 100%;
       margin: 10px 0;
       opacity: 0;
       animation: fadeInOption 1s forwards;
     }
+    body.dark-mode .option-btn {
+      background-color: var(--category-card-dark);
+      color: var(--text-dark);
+    }
     .option-btn:hover:not(:disabled) {
-      background-color: #0d6efd;
-      color: white;
+      background-color: var(--grad-light);
+      color: var(--text-dark);
       border-color: #0d6efd;
     }
+    body.dark-mode .option-btn:hover:not(:disabled) {
+      background-color: var(--btn-dark);
+      color: var(--text-light);
+    }
+    
     #timer {
       font-weight: bold;
       margin-bottom: 10px;
@@ -67,12 +112,16 @@
       transition: width 0.5s ease-in-out;
     }
     .result-screen {
-      background-color: #fff;
+      background-color: var(--background-light);
       border-radius: 20px;
       padding: 2rem;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
       text-align: center;
       animation: fadeInResult 1s ease-out;
+    }
+    body.dark-mode .result-screen {
+      background-color: var(--background-dark);
+      color: var(--text-dark);
     }
     .fade-in {
       animation: fadeIn 0.8s ease-in-out;
@@ -105,7 +154,7 @@
       left: 50px;
       width: 50px;
       height: 50px;
-      background-color: #ffffff;
+      background-color: var(--text-dark);
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -113,21 +162,37 @@
       font-size: 28px;
       font-weight: bold;
       text-decoration: none;
-      color: #131313;
+      color: var(--text-light);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
       transition: background-color 0.3s, color 0.2s, transform 0.2s;
       cursor: pointer;
       z-index: 999;
     }
+    body.dark-mode #back-btn {
+      background-color: var(--text-light);
+      color: var(--text-dark);
+    }
 
     #back-btn:hover {
-      background-color: #0d6efd;
+      background-color: var(--btn-light);
       color: #fff;
       transform: scale(1.05);
     }
+    body.dark-mode #back-btn:hover {
+      background-color: var(--btn-dark);
+      color: var(--text-light);
+      transform: scale(1.05);
+    }
+    
+  
   </style>
 </head>
 <body>
+  <label class="toggle-switch">
+    <input type="checkbox" id="darkModeToggle">
+    <span class="slider"></span>
+  </label>
+  
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm fixed-top">
     <div class="container">
       <a class="navbar-brand fw-bold" href="index.html">Quizzly</a>
@@ -150,7 +215,7 @@
     <h1>Welcome to Quizzly</h1>
     <p>Test your knowledge of Geography</p>
     <label for="questionCount" class="form-label">Select number of questions:</label>
-    <select class="form-select mb-3" id="questionCount">
+    <select class="form-select mb-3 new2" id="questionCount">
       <option value="5">5 Questions</option>
       <option value="10" selected>10 Questions</option>
       <option value="20">20 Questions</option>
@@ -425,14 +490,31 @@
         [arr[i], arr[j]] = [arr[j], arr[i]];
       }
       return arr;
-
-
-    function goBack() {
-      window.history.back();
-    }
     }
   </script>
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+  <script>
+// Get the dark mode toggle checkbox element
+const toggle = document.getElementById("darkModeToggle");
+
+// Load saved preference on page load
+if (localStorage.getItem('darkMode') === 'enabled') {
+  document.body.classList.add('dark-mode');
+  toggle.checked = true;
+}
+
+// Event listener for when the toggle is changed
+toggle.addEventListener("change", () => {
+  if (toggle.checked) {
+    document.body.classList.add("dark-mode");
+    localStorage.setItem("darkMode", "enabled");
+  } else {
+    document.body.classList.remove("dark-mode");
+    localStorage.setItem("darkMode", "disabled");
+  }
+});
+
+  </script>
 </body>
 </html>
