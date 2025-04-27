@@ -23,7 +23,6 @@
 
 
   <script>
-    AOS.init();
     // Get the dark mode toggle checkbox element
     const toggle = document.getElementById("darkModeToggle");
 
