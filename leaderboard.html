@@ -8,7 +8,31 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="togglebtn.css">
 </head>
+<style>
+        :root {
+      --background-light: #f0f2f5;
+      --background-dark: #121212;
+      --text-light: #000000;
+      --text-dark: #ffffff;
+      --category-card-light: #ffffff;
+      --category-card-dark: #2c2c2c;
+      --btn-light: #007bff;
+      --btn-dark: #ff9800;
+      --grad-light:#00c6ff ;
+      --grad-dark:#ff8800;
+    }  
+    body{
+      background-color: var(--background-light);
+    }
+    body.dark-mode{
+      background-color: var(--background-dark);
+    }
+    .ne {
+      margin-bottom: 20px;
+    }
+</style>
 <body>
 
   <!-- Navbar -->
@@ -32,7 +56,7 @@
   <br><br>
 
   <!-- Leaderboard Section -->
-  <section class="py-5 bg-white">
+  <section class="py-5 ">
     <div class="container">
       <h2 class="text-center fw-bold mb-4">Leaderboard</h2>
 
@@ -68,7 +92,7 @@
   </section>
 
   <!-- Footer -->
-  <footer class="text-white text-center py-4 bg-dark">
+  <footer class="text-white text-center py-4 bg-dark ne">
     <div class="container">
       <p class="mb-1">&copy; 2025 <strong>Quizzly</strong>. All rights reserved.</p>
       <p class="mb-0">
@@ -82,6 +106,35 @@
       </small>
     </div>
   </footer>
+
+  <label class="toggle-switch">
+    <input type="checkbox" id="darkModeToggle">
+    <span class="slider"></span>
+  </label>
+  
+
+
+  <script>
+    // Get the dark mode toggle checkbox element
+    const toggle = document.getElementById("darkModeToggle");
+
+    // Load saved preference on page load
+    if (localStorage.getItem('darkMode') === 'enabled') {
+      document.body.classList.add('dark-mode');
+      toggle.checked = true;
+    }
+
+    // Event listener for when the toggle is changed
+    toggle.addEventListener("change", () => {
+      if (toggle.checked) {
+        document.body.classList.add("dark-mode");
+        localStorage.setItem("darkMode", "enabled");
+      } else {
+        document.body.classList.remove("dark-mode");
+        localStorage.setItem("darkMode", "disabled");
+      }
+    });
+  </script>
 
   <!-- Bootstrap JS Bundle -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
