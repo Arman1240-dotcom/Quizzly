@@ -43,3 +43,191 @@
       }
     });
   </script>
+
+
+  //////////////////////
+    <a id="back-btn" href="quizzes.html" title="Go Back">&#8592;</a>
+
+  <div id="startScreen" class="quiz-container fade-in">
+    <h1>Welcome to Quizzly</h1>
+    <p>Test your knowledge of Geography</p>
+    <label for="questionCount" class="form-label">Select number of questions:</label>
+    <select class="form-select mb-3 new2" id="questionCount">
+      <option value="5">5 Questions</option>
+      <option value="10" selected>10 Questions</option>
+      <option value="20">20 Questions</option>
+    </select>
+    <button class="btn btn-primary" onclick="startQuiz(parseInt(document.getElementById('questionCount').value))">Start Quiz</button>
+  </div>
+
+  <div id="quizScreen" class="quiz-container fade-in" style="display:none;">
+    <div id="questionNumber" class="mb-2"></div>
+    <div id="questionText" class="mb-3"></div>
+    <div id="options"></div>
+    <div class="mt-3">
+      <button id="nextBtn" class="btn btn-success" onclick="nextQuestion()">Next</button>
+      <button id="submitBtn" class="btn btn-danger" onclick="showResult()" style="display:none;">Submit</button>
+    </div>
+    <div class="mt-4">
+      <div class="progress">
+        <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <div id="timer" class="mt-2"></div>
+    </div>
+  </div>
+
+  <div id="resultScreen" class="result-screen fade-in" style="display:none;">
+    <h2>Quiz Complete!</h2>
+    <p>Your Score: <strong id="finalScore"></strong></p>
+    <button class="btn btn-secondary" onclick="restartQuiz()">Try Again</button>
+  </div>
+
+
+  //////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+    <div class="container py-5 text-center">
+    <h1 class="display-5 fw-bold mb-4">🎯 Easy Quiz Challenge</h1>
+    
+    <!-- Quiz Header: Showing current question number and remaining questions -->
+    <div id="quiz-header">
+      <div id="current-question" class="fw-bold">Question 1</div>
+      <div id="remaining-questions" class="fw-bold">Remaining: 9</div>
+    </div>
+
+    <div id="quiz-container" class="card">
+      <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+          <h5 id="question" class="card-title mb-0 text-start"></h5>
+          <div id="timer"></div>
+        </div>
+        <div id="options" class="mb-3 text-start"></div>
+        <button class="btn btn-primary w-100" onclick="nextQuestion()">Next Question</button>
+      </div>
+    </div>
+
+    <div id="result" class="mt-4 fw-bold fs-4 d-none"></div>
+  </div>
+
+
+
+  <script defer>
+    const questions = [
+      { q: "What is 2 + 2?", options: ["3", "4", "5", "6"], answer: 1 },
+      { q: "Which color is the sky?", options: ["Blue", "Green", "Red", "Yellow"], answer: 0 },
+      { q: "How many days in a week?", options: ["5", "6", "7", "8"], answer: 2 },
+      { q: "What is the color of banana?", options: ["Blue", "Yellow", "Red", "Green"], answer: 1 },
+      { q: "How many wheels does a car have?", options: ["2", "3", "4", "6"], answer: 2 },
+      { q: "What is the opposite of hot?", options: ["Warm", "Cold", "Cool", "Hotter"], answer: 1 },
+      { q: "What do cows drink?", options: ["Milk", "Water", "Juice", "Soda"], answer: 1 },
+      { q: "Which shape has 3 sides?", options: ["Square", "Circle", "Triangle", "Rectangle"], answer: 2 },
+      { q: "What comes after Tuesday?", options: ["Monday", "Wednesday", "Thursday", "Friday"], answer: 1 },
+      { q: "Which animal barks?", options: ["Cat", "Dog", "Horse", "Cow"], answer: 1 }
+    ];
+
+    const timeLimit = 15;
+    let currentQuestion = 0;
+    let score = 0;
+    let timerInterval;
+    let timeLeft;
+
+    // Show the current question number and remaining questions
+    function updateQuestionInfo() {
+      document.getElementById("current-question").innerText = `Question ${currentQuestion + 1}`;
+      document.getElementById("remaining-questions").innerText = `Remaining: ${questions.length - currentQuestion - 1}`;
+    }
+
+    // Show the question and options
+    function showQuestion() {
+      clearInterval(timerInterval);
+      const q = questions[currentQuestion];
+      if (!q) {
+        alert("No questions available.");
+        return;
+      }
+      document.getElementById("question").innerText = q.q;
+      const optionsHtml = q.options.map((opt, index) =>
+        `<div class="form-check">
+          <input class="form-check-input" type="radio" name="option" value="${index}" id="opt${index}">
+          <label class="form-check-label" for="opt${index}">${opt}</label>
+        </div>`
+      ).join('');
+      document.getElementById("options").innerHTML = optionsHtml;
+      updateQuestionInfo(); // Update the question count info and remaining questions
+      startTimer();
+    }
+
+    // Start the timer countdown
+    function startTimer() {
+      timeLeft = timeLimit;
+      document.getElementById("timer").innerText = `⏱ ${timeLeft}s`;
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        document.getElementById("timer").innerText = `⏱ ${timeLeft}s`;
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          nextQuestion(true);
+        }
+      }, 1000);
+    }
+
+    // Move to the next question
+    function nextQuestion(auto = false) {
+      const selected = document.querySelector('input[name="option"]:checked');
+      if (!selected && !auto) {
+        alert("Please select an option!");
+        return;
+      }
+
+      if (selected && parseInt(selected.value) === questions[currentQuestion].answer) {
+        score++;
+      }
+
+      currentQuestion++;
+      if (currentQuestion < questions.length) {
+        showQuestion();
+      } else {
+        clearInterval(timerInterval);
+        const resultBox = document.getElementById("result");
+        resultBox.classList.remove("d-none");
+        resultBox.innerText = `🎉 Your Score: ${score} / ${questions.length}`;
+      }
+    }
+
+    showQuestion(); // Initial call to display the first question
+  </script>
+
+
+  /////////////////////////
+  medium question
+    <script defer>
+    const questions = [
+      { q: "What is the capital of France?", options: ["Rome", "Madrid", "Paris", "Berlin"], answer: 2 },
+      { q: "What does CPU stand for?", options: ["Central Processing Unit", "Control Processing Unit", "Computer Power Unit", "Central Performance Unit"], answer: 0 },
+      { q: "What is the boiling point of water?", options: ["90°C", "100°C", "110°C", "120°C"], answer: 1 },
+      { q: "Which gas do plants use for photosynthesis?", options: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"], answer: 2 },
+      { q: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: 1 },
+      { q: "How many continents are there?", options: ["5", "6", "7", "8"], answer: 2 },
+      { q: "Who wrote 'Romeo and Juliet'?", options: ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"], answer: 1 },
+      { q: "Which organ pumps blood in the body?", options: ["Brain", "Liver", "Heart", "Lung"], answer: 2 },
+      { q: "What is H2O?", options: ["Oxygen", "Hydrogen", "Water", "Salt"], answer: 2 },
+      { q: "What is the square root of 16?", options: ["2", "3", "4", "5"], answer: 2 }
+    ];
+
+    ///////////////////////////////////
+    hard question
+        const questions = [
+      { q: "What is the derivative of sin(x)?", options: ["cos(x)", "-cos(x)", "-sin(x)", "tan(x)"], answer: 0 },
+      { q: "Which planet has the most moons?", options: ["Earth", "Mars", "Jupiter", "Saturn"], answer: 3 },
+      { q: "What is Schrödinger's cat a thought experiment of?", options: ["Quantum mechanics", "Relativity", "Evolution", "Thermodynamics"], answer: 0 },
+      { q: "What is the integral of 1/x?", options: ["ln|x|", "x", "1/x^2", "x^2/2"], answer: 0 },
+      { q: "Who developed the theory of relativity?", options: ["Newton", "Einstein", "Tesla", "Galileo"], answer: 1 },
+      { q: "What is the smallest prime number?", options: ["0", "1", "2", "3"], answer: 2 },
+      { q: "Which element has the atomic number 6?", options: ["Carbon", "Oxygen", "Nitrogen", "Helium"], answer: 0 },
+      { q: "What does DNA stand for?", options: ["Deoxyribonucleic Acid", "Ribonucleic Acid", "Nitric Acid", "Dinucleic Acid"], answer: 0 },
+      { q: "What is the capital of Iceland?", options: ["Oslo", "Reykjavik", "Helsinki", "Stockholm"], answer: 1 },
+      { q: "What is the formula for the area of a circle?", options: ["πr", "2πr", "πr²", "r²"], answer: 2 }
+    ];
