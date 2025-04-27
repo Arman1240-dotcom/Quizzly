@@ -387,3 +387,185 @@
       { q: "What is the capital of Iceland?", options: ["Oslo", "Reykjavik", "Helsinki", "Stockholm"], answer: 1 },
       { q: "What is the formula for the area of a circle?", options: ["πr", "2πr", "πr²", "r²"], answer: 2 }
     ];
+
+
+    ////////////////////////////////////////////
+     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+  <div id="partyPopperContainer" class="text-center" style="display:none;">
+    <i class="fas fa-party-popper fa-3x"></i>
+    <i class="fas fa-party-popper fa-3x"></i>
+    <i class="fas fa-party-popper fa-3x"></i>
+  </div>
+
+
+      const percentage = (score / selectedQuestions.length) * 100;
+        if (percentage > 60) {
+        confetti({
+          particleCount: 200,
+          spread: 90,
+          origin: { y: 0.6 }
+        });
+        }
+
+
+
+
+
+
+ const allQuestions = [
+    {
+    question: "Which is the largest continent by land area?",
+    options: ["Africa", "North America", "Asia", "Europe"],
+    answer: "Asia"
+  },
+  {
+    question: "What is the capital city of France?",
+    options: ["Berlin", "Madrid", "Paris", "Rome"],
+    answer: "Paris"
+  },
+  {
+    question: "Which river is the longest in the world?",
+    options: ["Amazon", "Yangtze", "Mississippi", "Nile"],
+    answer: "Nile"
+  },
+  {
+    question: "Mount Everest is located in which mountain range?",
+    options: ["Andes", "Rockies", "Alps", "Himalayas"],
+    answer: "Himalayas"
+  },
+  {
+    question: "Which desert is the largest in the world?",
+    options: ["Sahara", "Gobi", "Kalahari", "Patagonian"],
+    answer: "Sahara"
+  },
+  {
+    question: "Which country has the most natural lakes?",
+    options: ["Canada", "Russia", "USA", "Brazil"],
+    answer: "Canada"
+  },
+  {
+    question: "Which line divides the Earth into the Northern and Southern Hemispheres?",
+    options: ["Prime Meridian", "Tropic of Cancer", "Equator", "Arctic Circle"],
+    answer: "Equator"
+  },
+  {
+    question: "Which country is known as the Land of the Rising Sun?",
+    options: ["China", "Japan", "Thailand", "South Korea"],
+    answer: "Japan"
+  },
+  {
+    question: "What is the capital of Australia?",
+    options: ["Sydney", "Melbourne", "Brisbane", "Canberra"],
+    answer: "Canberra"
+  },
+  {
+    question: "Which ocean is the largest?",
+    options: ["Atlantic", "Indian", "Southern", "Pacific"],
+    answer: "Pacific"
+  },
+  {
+    question: "Which country has the most people?",
+    options: ["USA", "India", "China", "Indonesia"],
+    answer: "China"
+  },
+  {
+    question: "Which U.S. state is the largest by area?",
+    options: ["Texas", "California", "Alaska", "Montana"],
+    answer: "Alaska"
+  },
+  {
+    question: "The Great Barrier Reef is located in which country?",
+    options: ["Indonesia", "Australia", "Philippines", "New Zealand"],
+    answer: "Australia"
+  },
+  {
+    question: "Which continent has the most countries?",
+    options: ["Europe", "Asia", "Africa", "South America"],
+    answer: "Africa"
+  },
+  {
+    question: "What is the smallest country in the world?",
+    options: ["Monaco", "San Marino", "Vatican City", "Liechtenstein"],
+    answer: "Vatican City"
+  },
+  {
+    question: "Which two continents are located entirely in the Western Hemisphere?",
+    options: ["Asia and Australia", "North America and South America", "Africa and Europe", "Antarctica and Asia"],
+    answer: "North America and South America"
+  },
+  {
+    question: "Which African country has the highest population?",
+    options: ["Egypt", "South Africa", "Nigeria", "Kenya"],
+    answer: "Nigeria"
+  },
+  {
+    question: "Which sea lies between Europe and Africa?",
+    options: ["Red Sea", "Black Sea", "Baltic Sea", "Mediterranean Sea"],
+    answer: "Mediterranean Sea"
+  },
+  {
+    question: "Which country is home to the Andes Mountains?",
+    options: ["Chile", "Brazil", "Mexico", "Argentina"],
+    answer: "Chile"
+  },
+  {
+    question: "What is the longest river in Europe?",
+    options: ["Danube", "Volga", "Rhine", "Thames"],
+    answer: "Volga"
+  },
+  {
+    question: "Which U.S. city is known as the Windy City?",
+    options: ["New York", "Los Angeles", "Chicago", "Boston"],
+    answer: "Chicago"
+  },
+  {
+    question: "Which continent is also a country?",
+    options: ["Africa", "Australia", "Europe", "South America"],
+    answer: "Australia"
+  },
+  {
+    question: "What is the tallest mountain in Africa?",
+    options: ["Mount Kenya", "Mount Elgon", "Mount Kilimanjaro", "Ras Dashen"],
+    answer: "Mount Kilimanjaro"
+  },
+  {
+    question: "Which country is known for having thousands of islands?",
+    options: ["Norway", "Greece", "Indonesia", "Japan"],
+    answer: "Indonesia"
+  },
+  {
+    question: "What is the capital of Canada?",
+    options: ["Toronto", "Ottawa", "Vancouver", "Montreal"],
+    answer: "Ottawa"
+  },
+  {
+    question: "Which country shares the longest border with the United States?",
+    options: ["Mexico", "Russia", "Canada", "United Kingdom"],
+    answer: "Canada"
+  },
+  {
+    question: "What is the name of the region at the South Pole?",
+    options: ["Arctic", "Antarctic", "Subarctic", "Southern Circle"],
+    answer: "Antarctic"
+  },
+  {
+    question: "Which U.S. state is known for having the most volcanoes?",
+    options: ["California", "Alaska", "Hawaii", "Washington"],
+    answer: "Alaska"
+  },
+  {
+    question: "Which river flows through the city of London?",
+    options: ["Seine", "Danube", "Thames", "Clyde"],
+    answer: "Thames"
+  },
+  {
+    question: "Which country does the island of Bali belong to?",
+    options: ["Thailand", "Philippines", "Indonesia", "Malaysia"],
+    answer: "Indonesia"
+  }    ];
+
+
+
+
+

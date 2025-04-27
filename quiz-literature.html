@@ -6,6 +6,8 @@
   <title>Quizzly - Literature Quiz</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
   <link rel="stylesheet" href="togglebtn.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <link rel="stylesheet" href="quizelout.css">
@@ -28,6 +30,11 @@
     </div>
   </nav>
   <a id="back-btn" href="quizzes.html" title="Go Back">&#8592;</a>
+  <div id="partyPopperContainer" class="text-center" style="display:none;">
+    <i class="fas fa-party-popper fa-3x"></i>
+    <i class="fas fa-party-popper fa-3x"></i>
+    <i class="fas fa-party-popper fa-3x"></i>
+  </div>
   <div id="startScreen" class="quiz-container fade-in">
     <h1>📚Literature</h1>
     <p>Test your knowledge of Literature</p>
@@ -169,6 +176,15 @@
       document.getElementById("quizScreen").style.display = "none";
       document.getElementById("resultScreen").style.display = "block";
       document.getElementById("finalScore").innerText = `${score} / ${selectedQuestions.length}`;
+      const percentage = (score / selectedQuestions.length) * 100;
+        if (percentage > 60) {
+        confetti({
+          particleCount: 200,
+          spread: 90,
+          origin: { y: 0.6 }
+        });
+        }
+    
     }
 
     function restartQuiz() {
