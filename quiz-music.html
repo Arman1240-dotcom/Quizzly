@@ -29,7 +29,7 @@
   </nav>
   <a id="back-btn" href="quizzes.html" title="Go Back">&#8592;</a>
   <div id="startScreen" class="quiz-container fade-in">
-    <h1>Welcome to Quizzly</h1>
+    <h1>🎵Music</h1>
     <p>Test your knowledge of Music</p>
     <label for="questionCount" class="form-label">Select number of questions:</label>
     <select class="form-select mb-3" id="questionCount">
@@ -43,7 +43,7 @@
   <div id="quizScreen" class="quiz-container fade-in" style="display:none;">
     <div id="questionNumber" class="mb-2"></div>
     <div id="questionText" class="mb-3"></div>
-    <div id="options"></div>
+    <div id="options" onclick="nextQuestion()"></div>
     <div class="mt-3">
       <button id="nextBtn" class="btn btn-success" onclick="nextQuestion()">Next</button>
       <button id="submitBtn" class="btn btn-danger" onclick="showResult()" style="display:none;">Submit</button>
