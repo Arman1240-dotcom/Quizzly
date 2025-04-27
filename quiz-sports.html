@@ -99,6 +99,32 @@
       max-width: 1200px;
       padding: 0 15px;
     }
+    #back-btn {
+      position: fixed;
+      top: 70px;
+      left: 50px;
+      width: 50px;
+      height: 50px;
+      background-color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #131313;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      transition: background-color 0.3s, color 0.2s, transform 0.2s;
+      cursor: pointer;
+      z-index: 999;
+    }
+
+    #back-btn:hover {
+      background-color: #0d6efd;
+      color: #fff;
+      transform: scale(1.05);
+    }
   </style>
 </head>
 <body>
@@ -118,7 +144,7 @@
       </div>
     </div>
   </nav>
-
+  <a id="back-btn" href="quizzes.html" title="Go Back">&#8592;</a>
   <div id="startScreen" class="quiz-container fade-in">
     <h1>Welcome to Quizzly</h1>
     <p>Test your knowledge of Sports</p>
