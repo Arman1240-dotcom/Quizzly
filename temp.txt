@@ -217,6 +217,162 @@
       { q: "What is the square root of 16?", options: ["2", "3", "4", "5"], answer: 2 }
     ];
 
+
+    const mediumQuestions = [
+  {
+    question: "What is the capital of France?",
+    options: ["Rome", "Madrid", "Paris", "Berlin"],
+    answer: "Paris"
+  },
+  {
+    question: "What does CPU stand for?",
+    options: ["Central Processing Unit", "Control Processing Unit", "Computer Power Unit", "Central Performance Unit"],
+    answer: "Central Processing Unit"
+  },
+  {
+    question: "What is the boiling point of water?",
+    options: ["90°C", "100°C", "110°C", "120°C"],
+    answer: "100°C"
+  },
+  {
+    question: "Which gas do plants use for photosynthesis?",
+    options: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"],
+    answer: "Carbon Dioxide"
+  },
+  {
+    question: "Which planet is known as the Red Planet?",
+    options: ["Earth", "Mars", "Jupiter", "Venus"],
+    answer: "Mars"
+  },
+  {
+    question: "How many continents are there?",
+    options: ["5", "6", "7", "8"],
+    answer: "7"
+  },
+  {
+    question: "Who wrote 'Romeo and Juliet'?",
+    options: ["Charles Dickens", "William Shakespeare", "Mark Twain", "Jane Austen"],
+    answer: "William Shakespeare"
+  },
+  {
+    question: "Which organ pumps blood in the body?",
+    options: ["Brain", "Liver", "Heart", "Lung"],
+    answer: "Heart"
+  },
+  {
+    question: "What is H2O?",
+    options: ["Oxygen", "Hydrogen", "Water", "Salt"],
+    answer: "Water"
+  },
+  {
+    question: "What is the square root of 16?",
+    options: ["2", "3", "4", "5"],
+    answer: "4"
+  },
+
+  {
+    question: "Which instrument is used to measure temperature?",
+    options: ["Barometer", "Thermometer", "Altimeter", "Hygrometer"],
+    answer: "Thermometer"
+  },
+  {
+    question: "Which blood group is called the universal donor?",
+    options: ["A", "B", "O", "AB"],
+    answer: "O"
+  },
+  {
+    question: "Which is the smallest prime number?",
+    options: ["0", "1", "2", "3"],
+    answer: "2"
+  },
+  {
+    question: "Which metal is liquid at room temperature?",
+    options: ["Mercury", "Iron", "Silver", "Gold"],
+    answer: "Mercury"
+  },
+  {
+    question: "Which animal is known for changing its color?",
+    options: ["Chameleon", "Tiger", "Elephant", "Dolphin"],
+    answer: "Chameleon"
+  },
+  {
+    question: "What is the main gas found in the air we breathe?",
+    options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Hydrogen"],
+    answer: "Nitrogen"
+  },
+  {
+    question: "Which scientist proposed the theory of gravity?",
+    options: ["Albert Einstein", "Isaac Newton", "Galileo Galilei", "Thomas Edison"],
+    answer: "Isaac Newton"
+  },
+  {
+    question: "What is the hardest natural substance on Earth?",
+    options: ["Gold", "Iron", "Diamond", "Granite"],
+    answer: "Diamond"
+  },
+  {
+    question: "What do you call a baby frog?",
+    options: ["Tadpole", "Cub", "Chick", "Calf"],
+    answer: "Tadpole"
+  },
+  {
+    question: "How many players are there in a soccer team on the field?",
+    options: ["9", "10", "11", "12"],
+    answer: "11"
+  },
+  {
+    question: "Which gas is essential for humans to breathe?",
+    options: ["Oxygen", "Hydrogen", "Carbon Dioxide", "Nitrogen"],
+    answer: "Oxygen"
+  },
+  {
+    question: "Which continent is the Sahara Desert located in?",
+    options: ["Asia", "Africa", "Australia", "South America"],
+    answer: "Africa"
+  },
+  {
+    question: "What is the largest internal organ in the human body?",
+    options: ["Brain", "Liver", "Heart", "Lung"],
+    answer: "Liver"
+  },
+  {
+    question: "Which element has the chemical symbol 'O'?",
+    options: ["Gold", "Oxygen", "Osmium", "Opal"],
+    answer: "Oxygen"
+  },
+  {
+    question: "Which month has an extra day during a leap year?",
+    options: ["February", "March", "December", "April"],
+    answer: "February"
+  },
+  {
+    question: "What is the name of our galaxy?",
+    options: ["Andromeda", "Milky Way", "Sombrero", "Black Eye"],
+    answer: "Milky Way"
+  },
+  {
+    question: "Which country invented pizza?",
+    options: ["France", "Italy", "USA", "Greece"],
+    answer: "Italy"
+  },
+  {
+    question: "Which instrument has keys, pedals, and strings?",
+    options: ["Guitar", "Piano", "Violin", "Flute"],
+    answer: "Piano"
+  },
+  {
+    question: "Which organ helps humans to see?",
+    options: ["Heart", "Brain", "Eyes", "Liver"],
+    answer: "Eyes"
+  },
+  {
+    question: "What type of energy does the Sun provide?",
+    options: ["Solar Energy", "Wind Energy", "Nuclear Energy", "Hydro Energy"],
+    answer: "Solar Energy"
+  }
+];
+
+
     ///////////////////////////////////
     hard question
         const questions = [
