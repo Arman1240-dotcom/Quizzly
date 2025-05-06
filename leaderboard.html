@@ -8,10 +8,9 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
-  <link rel="stylesheet" href="togglebtn.css">
-</head>
-<style>
-        :root {
+  <link rel="stylesheet" href="togglebtn.css" />
+  <style>
+    :root {
       --background-light: #f0f2f5;
       --background-dark: #121212;
       --text-light: #000000;
@@ -20,19 +19,73 @@
       --category-card-dark: #2c2c2c;
       --btn-light: #007bff;
       --btn-dark: #ff9800;
-      --grad-light:#00c6ff ;
-      --grad-dark:#ff8800;
-    }  
-    body{
+      --grad-light: #00c6ff;
+      --grad-dark: #ff8800;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
       background-color: var(--background-light);
+      transition: background-color 0.3s ease, color 0.3s ease;
     }
-    body.dark-mode{
+
+    body.dark-mode {
       background-color: var(--background-dark);
+      color: var(--text-dark);
     }
+
     .ne {
       margin-bottom: 20px;
     }
-</style>
+
+    .form-control,
+    .btn {
+      border-radius: 8px;
+    }
+
+    .toggle-switch {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 1000;
+    }
+
+    .toggle-switch input {
+      display: none;
+    }
+
+    .slider {
+      display: inline-block;
+      width: 50px;
+      height: 26px;
+      background-color: #ccc;
+      border-radius: 34px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .slider:before {
+      content: "";
+      position: absolute;
+      height: 18px;
+      width: 18px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      border-radius: 50%;
+      transition: transform 0.3s ease;
+    }
+
+    input:checked + .slider {
+      background-color: #2196f3;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(24px);
+    }
+  </style>
+</head>
 <body>
 
   <!-- Navbar -->
@@ -53,28 +106,36 @@
     </div>
   </nav>
 
-  <br><br>
+  <br><br><br>
 
   <!-- Leaderboard Section -->
-  <section class="py-5 ">
+  <section class="py-5">
     <div class="container">
       <h2 class="text-center fw-bold mb-4">Leaderboard</h2>
 
       <!-- Score Submission Form -->
       <div class="row justify-content-center mb-4">
-        <div class="col-md-6">
-          <div class="input-group mb-2">
-            <input type="text" id="name" class="form-control" placeholder="Enter your name">
-            <input type="number" id="score" class="form-control" placeholder="Enter your score">
-            <input type="text" id="category" class="form-control" placeholder="Enter category">
-            <button class="btn btn-success" onclick="addScore()">Submit</button>
-          </div>
+        <div class="col-md-8">
+          <form class="row g-2">
+            <div class="col-md-4">
+              <input type="text" id="name" class="form-control" placeholder="Enter your name" required />
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="score" class="form-control" placeholder="Score" required />
+            </div>
+            <div class="col-md-3">
+              <input type="text" id="category" class="form-control" placeholder="Category" required />
+            </div>
+            <div class="col-md-2">
+              <button type="button" class="btn btn-success w-100" onclick="addScore()">Submit</button>
+            </div>
+          </form>
         </div>
       </div>
 
       <!-- Leaderboard Table -->
       <div class="table-responsive">
-        <table class="table table-hover align-middle table-bordered">
+        <table class="table table-hover align-middle table-bordered text-center">
           <thead class="table-dark">
             <tr>
               <th scope="col">Rank</th>
@@ -83,9 +144,7 @@
               <th scope="col">Category</th>
             </tr>
           </thead>
-          <tbody id="leaderboard-body">
-            <!-- Dynamic rows go here -->
-          </tbody>
+          <tbody id="leaderboard-body"></tbody>
         </table>
       </div>
     </div>
@@ -95,9 +154,7 @@
   <footer class="text-white text-center py-4 bg-dark ne">
     <div class="container">
       <p class="mb-1">&copy; 2025 <strong>Quizzly</strong>. All rights reserved.</p>
-      <p class="mb-0">
-        This site and its content are the intellectual property of Quizzly. Unauthorized copying or reproduction is prohibited.
-      </p>
+      <p class="mb-0">This site and its content are the intellectual property of Quizzly. Unauthorized copying or reproduction is prohibited.</p>
       <small>
         Follow us on
         <a href="#"><i class="fab fa-twitter mx-2 text-white"></i></a>
@@ -107,24 +164,24 @@
     </div>
   </footer>
 
+  <!-- Dark Mode Toggle -->
   <label class="toggle-switch">
-    <input type="checkbox" id="darkModeToggle">
+    <input type="checkbox" id="darkModeToggle" />
     <span class="slider"></span>
   </label>
-  
 
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Script: Dark Mode + Leaderboard -->
   <script>
-    // Get the dark mode toggle checkbox element
     const toggle = document.getElementById("darkModeToggle");
 
-    // Load saved preference on page load
-    if (localStorage.getItem('darkMode') === 'enabled') {
-      document.body.classList.add('dark-mode');
+    if (localStorage.getItem("darkMode") === "enabled") {
+      document.body.classList.add("dark-mode");
       toggle.checked = true;
     }
 
-    // Event listener for when the toggle is changed
     toggle.addEventListener("change", () => {
       if (toggle.checked) {
         document.body.classList.add("dark-mode");
@@ -134,13 +191,7 @@
         localStorage.setItem("darkMode", "disabled");
       }
     });
-  </script>
 
-  <!-- Bootstrap JS Bundle -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Leaderboard Script -->
-  <script>
     let leaderboard = [
       { name: "Alice", score: 98, category: "History" },
       { name: "Bob", score: 95, category: "Science" },
@@ -148,42 +199,42 @@
     ];
 
     function updateLeaderboard() {
-      const leaderboardBody = document.getElementById("leaderboard-body");
-      leaderboardBody.innerHTML = "";
+      const tbody = document.getElementById("leaderboard-body");
+      tbody.innerHTML = "";
 
       leaderboard.sort((a, b) => b.score - a.score);
 
       leaderboard.forEach((entry, index) => {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
           <td>${index + 1}</td>
           <td>${entry.name}</td>
           <td>${entry.score}</td>
           <td>${entry.category}</td>
         `;
-
-        leaderboardBody.appendChild(row);
+        tbody.appendChild(tr);
       });
     }
 
     function addScore() {
       const name = document.getElementById("name").value.trim();
-      const score = parseInt(document.getElementById("score").value);
+      const score = parseInt(document.getElementById("score").value.trim());
       const category = document.getElementById("category").value.trim();
 
       if (name && !isNaN(score) && category) {
         leaderboard.push({ name, score, category });
+        updateLeaderboard();
+
+        // Clear inputs
         document.getElementById("name").value = "";
         document.getElementById("score").value = "";
         document.getElementById("category").value = "";
-        updateLeaderboard();
       } else {
-        alert("Please fill out all fields with valid values.");
+        alert("Please fill out all fields correctly.");
       }
     }
 
-    // Initialize leaderboard on page load
+    // Init
     updateLeaderboard();
   </script>
 </body>
