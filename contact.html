@@ -56,33 +56,197 @@
   body.dark-mode .btn:hover{
     background-color: #ff880090;
   } 
+  .testimonial-card {
+  background-color: var(--category-card-light);
+  border-radius: 15px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+  transition: transform 0.3s ease;
+}
+
+body.dark-mode .testimonial-card {
+  background-color: var(--category-card-dark);
+  color: var(--text-dark);
+}
+
+.testimonial-card:hover {
+  transform: translateY(-5px);
+}
+
+.user-icon {
+  color: var(--btn-light);
+  margin-right: 10px;
+}
+
+body.dark-mode .user-icon {
+  color: var(--btn-dark);
+}
+.about-contact-section {
+  padding: 60px 0;
+  background-color: var(--background-light);
+  color: var(--text-light);
+}
+
+body.dark-mode .about-contact-section {
+  background-color: var(--background-dark);
+  color: var(--text-dark);
+}
+
+.about-contact-section h2 {
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.about-contact-section p {
+  font-size: 16px;
+  line-height: 1.7;
+  margin-bottom: 10px;
+}
+
+.contact-info {
+  background-color: var(--category-card-light);
+  border-radius: 12px;
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+body.dark-mode .contact-info {
+  background-color: var(--category-card-dark);
+}
+/* Centered section headings */
+.section-heading {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+/* About Us box styling */
+.about-us-section,
+.team-info-box {
+  background-color: var(--category-card-light);
+  color: var(--text-light);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+  margin-bottom: 20px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Dark mode overrides */
+body.dark-mode .about-us-section,
+body.dark-mode .team-info-box {
+  background-color: var(--category-card-dark);
+  color: var(--text-dark);
+}
+
+/* Team member labels */
+.team-label {
+  font-weight: 600;
+  margin-bottom: 5px;
+}
+
+
 </style>
 <body>
   <!-- Contact Section -->
-  <section class="py-5">
-    <div class="container">
-      <h2 class="text-center fw-bold mb-5">Contact Us</h2>
-      <div class="row justify-content-center">
-        <div class="col-lg-6">
-          <form>
-            <div class="mb-3">
-              <label for="name" class="form-label">Your Name</label>
-              <input type="text" class="form-control" id="name" placeholder="John Doe" required />
-            </div>
-            <div class="mb-3">
-              <label for="email" class="form-label">Your Email</label>
-              <input type="email" class="form-control" id="email" placeholder="you@example.com" required />
-            </div>
-            <div class="mb-3">
-              <label for="message" class="form-label">Message</label>
-              <textarea class="form-control" id="message" rows="4" placeholder="Write your message here..." required></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary w-100">Send Message</button>
-          </form>
+  <!-- Contact Form Section -->
+<section class="py-5">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-5">Contact Us</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <form>
+          <div class="mb-3">
+            <label for="name" class="form-label">Your Name</label>
+            <input type="text" class="form-control" id="name" placeholder="John Doe" required />
+          </div>
+          <div class="mb-3">
+            <label for="email" class="form-label">Your Email</label>
+            <input type="email" class="form-control" id="email" placeholder="you@example.com" required />
+          </div>
+          <div class="mb-3">
+            <label for="message" class="form-label">Message</label>
+            <textarea class="form-control" id="message" rows="4" placeholder="Write your message here..." required></textarea>
+          </div>
+          <button type="submit" class="btn btn-primary w-100">Send Message</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="pt-4">
+  <div class="container">
+    <h2 class="text-center section-title mb-4">What Our Users Say</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="testimonial-card">
+          <p><i class="fas fa-user user-icon"></i>User 1</p>
+          <p>Quizzly makes learning fun. Challenging questions, smooth design—perfect for quiz lovers!</p>
+          <p class="text-end text-muted">- Divyanshu</p>
+        </div>
+        <div class="testimonial-card">
+          <p><i class="fas fa-user user-icon"></i>User 2</p>
+          <p>Easy, medium, hard levels. Tests my knowledge daily. Keeps me sharp always.</p>
+          <p class="text-end text-muted">- Armaan Chaudhary</p>
+        </div>
+        <div class="testimonial-card">
+          <p><i class="fas fa-user user-icon"></i>User 3</p>
+          <p>History made exciting. Interactive and fast-paced quizzes. Love the leaderboard competition.</p>
+          <p class="text-end text-muted">- Ankit</p>
+        </div>
+        <div class="testimonial-card">
+          <p><i class="fas fa-user user-icon"></i>User 4</p>
+          <p>User-friendly interface rocks. Signing up was easy. Great experience overall!</p>
+          <p class="text-end text-muted">- Yuvraj</p>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+
+<div class="col-md-12 mb-4">
+  <h2 class="section-heading">About Us</h2>
+  <div class="about-us-section">
+    <p>
+      Quizzly is an interactive quiz website offering engaging multiple-choice questions across difficulty levels. With a sleek design and leaderboard features, it makes learning fun, competitive, and accessible anytime.
+    </p>
+  </div>
+</div>
+
+<div class="col-md-12 mb-4">
+  <h2 class="section-heading">Team Leader</h2>
+  <div class="team-info-box">
+    <p class="team-label">Name: Arman Chaudhary</p>
+    <p>Email: arman0040.becse@chitkara.edu.in</p>
+    <p>Phone: +91 xxxxxxxxxx</p>
+  </div>
+</div>
+
+<div class="col-md-12 mb-4">
+  <h2 class="section-heading">Team Members</h2>
+  <div class="team-info-box">
+    <p class="team-label">Name: Divyanshu</p>
+    <p>Email: divyanshu0069.becse@chitkara.edu.in</p>
+    <p>Phone: +91 6307472353</p>
+  </div>
+  <div class="team-info-box">
+    <p class="team-label">Name: Yuvraj</p>
+    <p>Email: yuvraj0081.becse@chitkara.edu.in</p>
+    <p>Phone: +91 xxxxxxxxxx</p>
+  </div>
+  <div class="team-info-box">
+    <p class="team-label">Name: Ankit</p>
+    <p>Email: ankit0041.becse@chitkara.edu.in</p>
+    <p>Phone: +91 xxxxxxxxxx</p>
+  </div>
+</div>
+
+
   <label class="toggle-switch">
     <input type="checkbox" id="darkModeToggle">
     <span class="slider"></span>
