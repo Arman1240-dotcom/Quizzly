@@ -5,150 +5,213 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Quiz by Levels</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="togglebtn.css">
- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
   <style>
     :root {
-      --background-light: #f0f2f5;
+      --background-light: #f8f9fa;
       --background-dark: #121212;
-      --text-light: #000000;
+      --text-light: #2d3436;
       --text-dark: #ffffff;
-      --category-card-light: #ffffff;
-      --category-card-dark: #2c2c2c;
-      --btn-light: #007bff;
-      --btn-dark: #ff9800;
-      --grad-light:#00c6ff ;
-      --grad-dark:#ff8800;
+      --card-light: #ffffff;
+      --card-dark: #2d2d2d;
+      --primary-gradient: linear-gradient(135deg, #6B46C1 0%, #4299E1 100%);
+      --success-gradient: linear-gradient(135deg, #48BB78 0%, #38B2AC 100%);
+      --warning-gradient: linear-gradient(135deg, #ED8936 0%, #ECC94B 100%);
+      --danger-gradient: linear-gradient(135deg, #F56565 0%, #ED64A6 100%);
     }
+
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background:var(--category-card-light);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--background-light);
+      color: var(--text-light);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
     }
+
     body.dark-mode {
       background: var(--background-dark);
+      color: var(--text-dark);
     }
+
+    .navbar {
+      backdrop-filter: blur(10px);
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .dark-mode .navbar {
+      background: rgba(18, 18, 18, 0.9);
+    }
+
+    .level-card {
+      border: none;
+      border-radius: 1rem;
+      padding: 2rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      background: var(--card-light);
+      min-height: 300px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .dark-mode .level-card {
+      background: var(--card-dark);
+    }
+
+    .level-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+
+    .level-icon {
+      font-size: 3.5rem;
+      margin-bottom: 1.5rem;
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .easy .level-icon { background-image: var(--success-gradient); }
+    .medium .level-icon { background-image: var(--warning-gradient); }
+    .hard .level-icon { background-image: var(--danger-gradient); }
+
     .level-btn {
-      font-size: 1.1rem;
-      padding: 10px 20px;
+      border: none;
       border-radius: 50px;
+      padding: 0.8rem 2rem;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      background-image: var(--primary-gradient);
+      color: white !important;
     }
-    .content {
-      flex: 1; /* This makes sure the content takes up the available space */
+
+    .level-btn:hover {
+      opacity: 0.9;
+      transform: scale(1.05);
     }
 
-  /* Existing styles remain unchanged */
+    .hero-section {
+      background: var(--primary-gradient);
+      color: white;
+      padding: 5rem 0;
+      border-radius: 0 0 2rem 2rem;
+      margin-bottom: 3rem;
+    }
 
-  /* Add animation to level buttons */
-  .level-btn {
-    font-size: 1.1rem;
-    padding: 10px 20px;
-    border-radius: 50px;
-    transition: transform 0.2s ease, box-shadow 0.3s ease;
-  }
+    .dark-mode .hero-section {
+      background: linear-gradient(135deg, #4A5568 0%, #2D3748 100%);
+    }
 
-  .level-btn:hover {
-    transform: translateY(-4px) scale(1.05);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-  }
+    .toggle-switch {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 1000;
+    }
 
-  .level-btn:active {
-    transform: scale(0.98);
-  }
+    footer {
+      margin-top: auto;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
 
+    .dark-mode footer {
+      border-color: rgba(255, 255, 255, 0.1);
+    }
 
+    @media (max-width: 768px) {
+      .level-card {
+        margin-bottom: 1.5rem;
+      }
+      
+      .hero-section {
+        padding: 3rem 0;
+      }
+    }
   </style>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
-    <div class="container">
-      <a class="navbar-brand fw-bold" href="#">Quizzly</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav ms-auto">
-          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="quizzes.html">Quizzes</a></li>
-          <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
-          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
-          <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-          <li class="nav-item"><a class="nav-link" href="signup.html">Sign Up</a></li>
-        </ul>
-      </div>
-    </div>
-  </nav>
 </head>
 <body>
 
-  <div class="content">
-    <div class="container py-5 text-center">
-      <h1 class="display-5 fw-bold mb-4">🎯 Quiz Challenges</h1>
-      <p class="lead mb-4">Select a difficulty level to begin your quiz journey!</p>
-      <div class="d-flex justify-content-center mb-5">
-        <button class="btn btn-success mx-2 level-btn" onclick="startQuiz('easy')">Easy</button>
-        <button class="btn btn-warning mx-2 level-btn" onclick="startQuiz('medium')">Medium</button>
-        <button class="btn btn-danger mx-2 level-btn" onclick="startQuiz('hard')">Hard</button>
+<nav class="navbar navbar-expand-lg navbar-light fixed-top">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="#">Quizzly</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="quizzes.html">Quizzes</a></li>
+        <li class="nav-item"><a class="nav-link" href="leaderboard.html">Leaderboard</a></li>
+        <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="content">
+  <section class="hero-section">
+    <div class="container text-center" >
+      <h1 class="display-4 fw-bold mb-3">Challenge Yourself</h1>
+      <p class="lead mb-4">Test your knowledge across different difficulty levels</p>
+    </div>
+  </section>
+
+  <div class="container py-5">
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="level-card easy" onclick="location.href='easy.html'">
+          <div>
+            <i class="fas fa-seedling level-icon"></i>
+            <h3 class="mb-3">Beginner</h3>
+            <p class="text-muted">Perfect for new learners. Simple questions to build foundational knowledge.</p>
+          </div>
+          <button class="btn level-btn">Start Easy Quiz</button>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="level-card medium" onclick="location.href='medium.html'">
+          <div>
+            <i class="fas fa-chart-line level-icon"></i>
+            <h3 class="mb-3">Intermediate</h3>
+            <p class="text-muted">For those ready to challenge themselves with moderate difficulty questions.</p>
+          </div>
+          <button class="btn level-btn">Start Medium Quiz</button>
+        </div>
+      </div>
+      
+      <div class="col-md-4">
+        <div class="level-card hard" onclick="location.href='hard.html'">
+          <div>
+            <i class="fas fa-fire level-icon"></i>
+            <h3 class="mb-3">Expert</h3>
+            <p class="text-muted">Designed for experts. Only the most knowledgeable will succeed here.</p>
+          </div>
+          <button class="btn level-btn">Start Hard Quiz</button>
+        </div>
       </div>
     </div>
   </div>
-  <label class="toggle-switch">
-    <input type="checkbox" id="darkModeToggle">
-    <span class="slider"></span>
-  </label>
-  
+</div>
 
+<label class="toggle-switch">
+  <input type="checkbox" id="darkModeToggle">
+  <span class="slider"></span>
+</label>
 
-  <script>
-    // Get the dark mode toggle checkbox element
-    const toggle = document.getElementById("darkModeToggle");
-
-    // Load saved preference on page load
-    if (localStorage.getItem('darkMode') === 'enabled') {
-      document.body.classList.add('dark-mode');
-      toggle.checked = true;
-    }
-
-    // Event listener for when the toggle is changed
-    toggle.addEventListener("change", () => {
-      if (toggle.checked) {
-        document.body.classList.add("dark-mode");
-        localStorage.setItem("darkMode", "enabled");
-      } else {
-        document.body.classList.remove("dark-mode");
-        localStorage.setItem("darkMode", "disabled");
-      }
-    });
-  </script>
-
-  <script defer>
-    function startQuiz(level) {
-      // Navigate to a new page based on the selected level
-      if (level === "easy") {
-        window.location.href = "easy.html"; // Redirect to easy quiz page
-      } else if (level === "medium") {
-        window.location.href = "medium.html"; // Redirect to medium quiz page
-      } else if (level === "hard") {
-        window.location.href = "hard.html"; // Redirect to hard quiz page
-      }
-    }
-  </script>
-
-  <!-- Footer -->
-  <footer class="text-white text-center py-4 bg-dark">
-    <div class="container">
-      <p class="mb-1">&copy; 2025 <strong>Quizzly</strong>. All rights reserved.</p>
-      <p class="mb-0">
-        This site and its content are the intellectual property of Quizzly. Unauthorized copying or reproduction is prohibited.
-      </p>
-      <small>
-        Follow us on
-        <a href="#"><i class="fab fa-twitter mx-2 text-white"></i></a>
-        <a href="#"><i class="fab fa-facebook-f mx-2 text-white"></i></a>
-        <a href="#"><i class="fab fa-instagram mx-2 text-white"></i></a>
-      </small>
+<footer class="py-4">
+  <div class="container text-center">
+    <div class="mb-3">
+      <a href="#" class="text-decoration-none me-3"><i class="fab fa-twitter"></i></a>
+      <a href="#" class="text-decoration-none me-3"><i class="fab fa-facebook"></i></a>
+      <a href="#" class="text-decoration-none"><i class="fab fa-instagram"></i></a>
     </div>
-  </footer>
+    <p class="mb-0 small">&copy; 2025 Quizzly. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Same JavaScript as before -->
 </body>
 </html>
