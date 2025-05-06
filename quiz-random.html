@@ -39,6 +39,27 @@
     .content {
       flex: 1; /* This makes sure the content takes up the available space */
     }
+
+  /* Existing styles remain unchanged */
+
+  /* Add animation to level buttons */
+  .level-btn {
+    font-size: 1.1rem;
+    padding: 10px 20px;
+    border-radius: 50px;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+  }
+
+  .level-btn:hover {
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .level-btn:active {
+    transform: scale(0.98);
+  }
+
+
   </style>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
     <div class="container">
